@@ -3,57 +3,376 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stunning Homepage</title>
+    <title>Neon Chatbox</title>
+    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <div class="logo">MyWebsite</div>
-        <nav>
-            <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
-    
-    <main>
-        <section class="hero">
-            <h1>Welcome to My Stunning Homepage</h1>
-            <p>Your journey to excellence starts here.</p>
-            <a href="#services" class="cta">Explore Now</a>
-        </section>
-        
-        <section id="about">
-            <h2>About Us</h2>
-            <p>We provide top-notch services to elevate your experience.</p>
-        </section>
-        
-        <section id="services">
-            <h2>Our Services</h2>
-            <div class="service-card">
-                <h3>Service One</h3>
-                <p>Details about service one.</p>
+    <div class="container">
+        <div id="chatbox" class="neon-chatbox">
+            <div class="chat-header">
+                Chat Room 
+                <button class="minimize-button" onclick="toggleChatbox()">&#x25B2;</button>
             </div>
-            <div class="service-card">
-                <h3>Service Two</h3>
-                <p>Details about service two.</p>
-            </div>
-            <div class="service-card">
-                <h3>Service Three</h3>
-                <p>Details about service three.</p>
-            </div>
-        </section>
+            <div class="messages" id="messages"></div>
+            <div id="statusMessage" class="status-message" style="color: red;">Loading messages...</div>
+            <div id="userInfo" class="user-info" style="color: rgb(81, 165, 229);"></div>
+            <input type="text" id="messageInput" class="message-input" placeholder="Type a message..." />
+            <button id="sendButton" class="send-button" onclick="sendMessage()">Send</button>
+            <div id="descLogin" class="desc-login" style="color: rgba(36, 102, 255, 0.711);">seamless login, register, name, pw change:</div>
+            <input type="text" id="displayNameInput" class="display-name-input" placeholder="Enter your display name..." />
+            <input type="text" id="emailInput" class="name-input" placeholder="Enter your email..." />
+            <input type="password" id="passwordInput" class="password-input" placeholder="Enter your password..." />
+            <button id="forgotPasswordButton" class="forgot-password-button" onclick="forgotPassword()">Forgot Password?</button>
+            <button id="signOutButton" class="sign-out-button" onclick="signOut()">sign out</button>
+
+        </div>
+        <button id="openChatButton" class="hidden" onclick="toggleChatbox()">Open Chat</button>
+    </div>
+
+    <script type="module">
+        // Firebase imports
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+        import { getDatabase, ref, onValue, push, set, update } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
+        import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCcV2wJ2tvOYEH_tW1sIi3YXOURy6h7VTo",
+            authDomain: "zeddychan.firebaseapp.com",
+            databaseURL: "https://zeddychan-default-rtdb.firebaseio.com",
+            projectId: "zeddychan",
+            storageBucket: "zeddychan.appspot.com",
+            messagingSenderId: "556479718409",
+            appId: "1:556479718409:web:c6bfd066216922f35484d8",
+            measurementId: "G-8W0CHH4G68"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const auth = getAuth(app);
         
-        <section id="contact">
-            <h2>Contact Us</h2>
-            <p>Get in touch with us!</p>
-        </section>
-    </main>
-    
-    <footer>
-        <p>&copy; 2024 MyWebsite. All rights reserved.</p>
-    </footer>
+        const sendButton = document.getElementById("sendButton");
+        const emailInput = document.getElementById("emailInput");
+        const passwordInput = document.getElementById("passwordInput");
+        const messageInput = document.getElementById("messageInput");
+        const chatbox = document.getElementById("chatbox");
+        const openChatButton = document.getElementById("openChatButton");
+        const statusMessageDiv = document.getElementById("statusMessage");
+        const userInfoDiv = document.getElementById("userInfo");
+        onAuthStateChanged(auth, (user) => {
+            checkUser(user);
+        });
+        function checkUser() {
+            // CHECK CURRENT USER
+            const user = auth.currentUser;
+
+            if (user) {
+                statusMessageDiv.textContent = "Hello, human.";
+
+                const userEmail = user.email;
+                const userRef = ref(database, `users/${userEmail.replace('.', ',')}`);
+
+                // Fetch display name from the database
+                onValue(userRef, (snapshot) => {
+                    const userData = snapshot.val();
+                    const displayName = userData ? userData.displayName || 'Anonymous' : 'Anonymous';
+
+                    updateUIForLoggedInUser(displayName); // Use the actual displayName here
+                });
+            } else {
+                statusMessageDiv.textContent = "Loading...";
+            }
+        }
+        userInfoDiv.textContent = "Anonymous";
+
+
+        // LOADING MESSAGES
+        function loadMessages() {
+            
+            statusMessageDiv.textContent = "Loading messages...";
+            setTimeout(() => {
+            const messagesRef = ref(database, 'publicChatRooms/defaultRoom/messages');
+            onValue(messagesRef, (snapshot) => {
+                const messages = snapshot.val();
+                const messagesDiv = document.getElementById("messages");
+                messagesDiv.innerHTML = '';
+
+                for (const key in messages) {
+                    const message = messages[key];
+                    const messageElement = document.createElement("div");
+                    messageElement.className = "message";
+                    messageElement.textContent = `${message.name || 'Anonymous'}: ${message.text} (sent at ${new Date(message.timestamp).toLocaleTimeString()})`;
+                    messagesDiv.appendChild(messageElement);
+                }
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+                sendButton.disabled = false;
+            }, (error) => {
+                console.error("Error reading data:", error);
+                statusMessageDiv.textContent = "Maintenance! Come back tomorrow or later.";
+                sendButton.disabled = true;
+            });
+            statusMessageDiv.textContent = "";}, 110);
+        }
+        sendButton.disabled = true;
+
+        loadMessages();
+        
+
+        // SENDING A MESSAGE
+        window.sendMessage = function() {
+        sendButton.disabled = true;
+        statusMessageDiv.textContent = "Loading...";
+
+        setTimeout(() => {
+        const messageText = messageInput.value.trim();
+        const userEmail = emailInput.value.trim();
+        const userPassword = passwordInput.value.trim();
+
+        if (messageText === "") {
+            statusMessageDiv.textContent = "Input is required.";
+            sendButton.disabled = false;
+            return;
+        }
+
+        // Get the current user
+        const user = auth.currentUser;
+
+        if (user) {
+            const userEmail = user.email;
+            const userRef = ref(database, `users/${userEmail.replace('.', ',')}`);
+
+            // Fetch display name from the database
+            onValue(userRef, (snapshot) => {
+                const userData = snapshot.val();
+                const displayName = userData.displayName || 'Anonymous';
+
+                const messageData = {
+                    name: displayName,
+                    text: messageText,
+                    timestamp: Date.now()
+                };
+
+                push(ref(database, 'publicChatRooms/defaultRoom/messages'), messageData)
+                    .then(() => {
+                        messageInput.value = "";
+                        updateUIForLoggedInUser(displayName);
+                        if (displayNameInput.value !== "") {
+                            saveDisplayName(userEmail, displayNameInput.value.trim());
+                        }
+                        statusMessageDiv.textContent = `Message sent. ${new Date(Date.now()).toLocaleTimeString()}`;
+                        passwordInput.value = ""; // Clear password
+                        displayNameInput.value = "";
+                    })
+                    .catch((error) => {
+                        console.error("Error writing data:", error);
+                        statusMessageDiv.textContent = "Maintenance! Come back tomorrow or later.";
+                    });
+            });
+        } 
+        else {
+
+
+        // Check if email is provided
+        if (userEmail === "") {
+                // Send as anonymous
+                const messageData = {
+                    name: "Anonymous",
+                    text: messageText,
+                    timestamp: Date.now()
+                };
+                push(ref(database, 'publicChatRooms/defaultRoom/messages'), messageData)
+                    .then(() => {
+                        messageInput.value = "";
+                        statusMessageDiv.textContent = "Message sent as Anonymous.";
+                        userInfo.textContent = "Anonymous";
+                        sendButton.disabled = false;
+                    })
+                    .catch((error) => {
+                        console.error("Error writing data:", error);
+                        statusMessageDiv.textContent = "Maintenance! Come back tomorrow or later.";
+                        sendButton.disabled = true;
+                    });
+            } else {
+                    // Attempt to login/register
+                    signInWithEmailAndPassword(auth, userEmail, userPassword)
+                        .then(() => {
+                            sendButton.disabled = true;
+
+                            // Fetch the display name from the database
+                            const userRef = ref(database, `users/${userEmail.replace('.', ',')}`);
+                            onValue(userRef, (snapshot) => {
+
+                                const userData = snapshot.val();
+                                const displayName = userData.displayName || 'Error loading name';
+
+                                const messageData = {
+                                    name: displayName, // Use display name from database
+                                    text: messageText,
+                                    timestamp: Date.now()
+                                };
+                                push(ref(database, 'publicChatRooms/defaultRoom/messages'), messageData)
+                                .then(() => {
+                                    statusMessageDiv.textContent = "";
+
+                                    messageInput.value = "";
+                                    passwordInput.value = ""; // Clear password
+                                    updateUIForLoggedInUser(displayName);
+                                    if (displayNameInput.value !== "") {
+                                    saveDisplayName(userEmail, displayNameInput.value.trim());
+                                    }
+                                    displayNameInput.value = "";
+                                    sendButton.disabled = false;
+                                    
+                                })
+                                .catch((error) => {
+                                    console.error("Error writing data:", error);
+                                    statusMessageDiv.textContent = "Maintenance! Come back tomorrow or later.";
+                                    sendButton.disabled = true;
+                                });  
+                            });
+                        })
+                        .catch((error) => {
+                            sendButton.disabled = true;
+
+                            if (error.code === 'auth/user-not-found') {
+                                // Not registered, attempt to register
+                                createUserWithEmailAndPassword(auth, userEmail, userPassword)
+                                    .then(() => {
+                                        const displayName = displayNameInput.value.trim();
+
+                                        const messageData = {
+                                            text: messageText,
+                                            name: displayName,
+                                            timestamp: Date.now()
+                                        };
+                                        push(ref(database, 'publicChatRooms/defaultRoom/messages'), messageData)
+                                            .then(() => {
+                                                statusMessageDiv.textContent = "";
+
+                                                messageInput.value = "";
+                                                passwordInput.value = ""; // Clear password
+                                                updateUIForNewRegisteredInUser(displayName);
+                                                saveDisplayName(userEmail, displayName);
+                                                sendButton.disabled = false;
+                                            })
+                                            .catch((error) => {
+                                                console.error("Error writing data:", error);
+                                                statusMessageDiv.textContent = "Maintenance! Come back tomorrow or later.";
+                                                sendButton.disabled = true;
+                                            });
+                                    })
+                                    .catch((error) => {
+                                        statusMessageDiv.textContent = error.message;
+                                    });
+                            } else if (error.code === 'auth/invalid-credential') {
+                                    createUserWithEmailAndPassword(auth, userEmail, userPassword)
+                                    .then(() => {
+                                        const displayName = displayNameInput.value.trim();
+
+                                        const messageData = {
+                                            text: messageText,
+                                            name: displayName,
+                                            timestamp: Date.now()
+                                        };
+                                        push(ref(database, 'publicChatRooms/defaultRoom/messages'), messageData)
+                                            .then(() => {
+                                                statusMessageDiv.textContent = "";
+
+                                                messageInput.value = "";
+                                                passwordInput.value = ""; // Clear password
+                                                updateUIForNewRegisteredInUser(displayName);
+                                                saveDisplayName(userEmail, displayName);
+                                                sendButton.disabled = false;
+
+                                            })
+                                            .catch((error) => {
+                                                console.error("Error writing data:", error);
+                                                statusMessageDiv.textContent = "Maintenance! Come back tomorrow or later.";
+                                                sendButton.disabled = true;
+                                            });
+                                    })
+                                    .catch((error) => {
+                                        statusMessageDiv.textContent = "Something went wrong. Please try it again or nech an696 9 at gmaildotcom for support. or make sure your password is correct.";
+                                    });
+                            } else if (error.code === 'auth/missing-password') {
+                                statusMessageDiv.textContent =  "Enter password.";
+                            } else {
+                                // Handle other errors
+                                statusMessageDiv.textContent = "Too many attempts or something went wrong. Please try it again later or nech an696 9 at gmaildotcom for support. - or make sure your password is correct.";
+                            }
+                        });
+                }
+            }
+        }, 1000);
+        }
+        
+        function saveDisplayName(userEmail, displayName) {
+        const userRef = ref(database, `users/${userEmail.replace('.', ',')}`); // Directly set displayName
+        update(userRef, { displayName })
+            .catch((error) => {
+                console.error("Error writing data:", error);
+                statusMessageDiv.textContent = error.message;
+            });
+        }
+
+        function updateUIForLoggedInUser(displayName) {
+            passwordInput.style.display = "none";
+            displayNameInput.style.display = "none";
+            userInfo.textContent = `Welcome ${displayName}.`;
+        }
+
+        function updateUIForNewRegisteredInUser(displayName) {
+            passwordInput.style.display = "none";
+            displayNameInput.style.display = "none";
+            userInfo.textContent = `Welcome ${displayName}.`;
+        }
+
+        window.toggleChatbox = function() {
+            const isMinimized = chatbox.style.display === 'none';
+            chatbox.style.display = isMinimized ? 'flex' : 'none';
+            openChatButton.style.display = isMinimized ? 'none' : 'block';
+        }
+
+        window.forgotPassword = function() {
+            const userEmail = emailInput.value.trim();
+
+            if (userEmail === "") {
+                statusMessageDiv.textContent = "Please enter your email address.";
+                return;
+            }
+
+            sendPasswordResetEmail(auth, userEmail)
+                .then(() => {
+                    statusMessageDiv.textContent = "If you are registered, you will receive a password reset email.";
+                })
+                .catch((error) => {
+                    console.error(error); 
+                    statusMessageDiv.textContent = "If you are registered, you will receive a password reset email.";
+                });
+        }
+        function resetUIForLoggedOutUser() {
+            passwordInput.style.display = "block"; // Show password input
+            displayNameInput.style.display = "block"; // Show display name input
+            emailInput.value = ""; // Clear email input
+            passwordInput.value = ""; // Clear password input
+            displayNameInput.value = ""; // Clear display name input
+            userInfo.textContent = "";
+        }
+
+        window.signOut = function() {
+            signOut(auth)
+                .then(() => {
+                    // Sign-out successful.
+                    statusMessageDiv.textContent = "You have been signed out.";
+                    resetUIForLoggedOutUser(); // Reset UI for logged out state
+                })
+                .catch((error) => {
+                    console.error("Error signing out:", error);
+                    statusMessageDiv.textContent = "Error signing out. Please try again.";
+                });
+        };
+
+    </script>
 </body>
 </html>
