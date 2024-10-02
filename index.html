@@ -60,6 +60,7 @@
         const openChatButton = document.getElementById("openChatButton");
         const statusMessageDiv = document.getElementById("statusMessage");
         const userInfoDiv = document.getElementById("userInfo");
+        const signOutButton = document.getElementById("signOutButton");
         onAuthStateChanged(auth, (user) => {
             checkUser(user);
         });
@@ -79,6 +80,7 @@
                     const displayName = userData ? userData.displayName || 'Anonymous' : 'Anonymous';
 
                     updateUIForLoggedInUser(displayName); // Use the actual displayName here
+                    signOutButton.style.display = "block";
                 });
             } else {
                 statusMessageDiv.textContent = "Loading...";
