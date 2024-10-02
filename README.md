@@ -1,2 +1,2 @@
-# [zeddychan.github.io](https://zeddychan.github.io/){:target="_blank"}
+# [zeddychan.github.io](https://zeddychan.github.io/)
 zeddy
