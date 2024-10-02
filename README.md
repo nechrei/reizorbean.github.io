@@ -1,2 +1,2 @@
-# zeddychan.github.io
+# [zeddychan.github.io](https://zeddychan.github.io/)
 zeddy
