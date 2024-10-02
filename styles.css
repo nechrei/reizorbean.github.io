@@ -68,7 +68,12 @@ body {
 .user-info{
     font-size: 10px;
 }
-
+.sign-out-button{
+    display: none;
+    background-color: rgba(53, 53, 222, 0.545);
+    color: #d7e7fe45;
+    cursor: pointer;
+}
 
 
 .forgot-password-button{
