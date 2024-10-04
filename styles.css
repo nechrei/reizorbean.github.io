@@ -1,16 +1,26 @@
 body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+}
+.OnTopOptions {
     display: flex;
     justify-content: right;
     align-items: end;
     height: 100vh;
+    width: 100%;
     margin: 0;
     background-color: #222;
 }
 
-.container {
+.chat-container {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 10;
     flex-direction: column;
 }
 .claim-button{
@@ -40,7 +50,7 @@ body {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    transition: height 0.3s ease;    
+    transition: height 0.3s ease;  
 }
 
 .chat-header {
@@ -145,4 +155,19 @@ body {
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
+}
+
+
+.draggable {
+    width: 150px;
+    height: 150px;
+    background-color: #3498db;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    position: absolute;
+    cursor: move; 
+    user-select: none; 
 }
