@@ -2,6 +2,26 @@
     color: #0ff;
     margin: 3px;
 }
+.hpns{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    font-family: 'Comic Sans MS', cursive, sans-serif; /* Cute font */
+    font-size: 1em; /* Large font size */
+    text-align: center; /* Center the text */
+    color: #ff69b4; /* Pink color for the text */
+    background: linear-gradient(45deg, #ffcc00, #ff69b4); /* Gradient background */
+    -webkit-background-clip: text; /* Clip background to text */
+    -webkit-text-fill-color: transparent; /* Fill text with gradient */
+    position: relative; /* For positioning the sparkle */
+    animation: sparkle 1.5s infinite; /* Animation for shine effect */
+    text-shadow: 
+        0 0 5px rgba(255, 105, 180, 0.8),
+        0 0 10px rgba(255, 105, 180, 0.8),
+        0 0 15px rgba(255, 215, 0, 0.7); /* Add a glowing effect */
+}
 .topic {
     font-family: 'Comic Sans MS', cursive, sans-serif; /* Cute font */
     font-size: 4em; /* Large font size */
