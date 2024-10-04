@@ -1,26 +1,81 @@
 body {
+    background-color: #222;
+    margin: 0;
+}
+header{
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    color: #0ff;
+    height: 80px;
+}
+article{
+    margin: 5px;
+}
+.annPos{
+    z-index: 8;
+
+    display: flex;
+    position: fixed;
+    top: 54px;
+}
+.announcement {
+    color: #fffcfc;
+    background-color: #111;
+    padding: 10px;
+    display: none; /* Initially hidden */
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+}.announcement:hover{
+    background-color: #44ddffd2;
+    opacity: 80%;
+}
+.close-announcement{
+    opacity: 20%;
+    font-size: 10px;
+    right: 7px;
+    bottom: 8px;
+    position: relative;
+    height: 20px;
+    width: 20px;
+    text-align: center;    
+    display: none; /* Initially hidden */
+    color: #fffcfc;
+    background-color: #e84c18;
+    border-radius: 20px ;
+    border: 1px solid #340000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.close-announcement:hover{
+    opacity: 90%;
+    background-color: #ff3d02f9;
+}
+.tops{
     margin: 0;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f0f0f0;
+}
+article{
+    position: absolute;
+    color: #f0e7e4;
 }
 .OnTopOptions {
-    display: flex;
-    justify-content: right;
-    align-items: end;
-    height: 100vh;
-    width: 100%;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 10;
     margin: 0;
-    background-color: #222;
 }
 
 .chat-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 10;
     flex-direction: column;
 }
 .claim-button{
@@ -161,7 +216,7 @@ body {
 .draggable {
     width: 150px;
     height: 150px;
-    background-color: #3498db;
+    background-color: #3498db00;
     color: white;
     display: flex;
     justify-content: center;
