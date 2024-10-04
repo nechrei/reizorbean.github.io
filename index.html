@@ -6,9 +6,39 @@
     <title>Zeddychan</title>
     <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+
+
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <header>
+        <div>Zeddychan</div>
+        <div>Zeddychan is a public playground. We can both be anonymous and share our thoughts each day. We love horror, conspiracies and some memes.</div>
+        <div class="annPos">
+            <button title="announcement" class="announcement" id="announcement" onclick="goToAnn()">
+            </button>
+            <button title="close-announcement" class="close-announcement" id="close-announcement" onclick="closeAnn()">
+            X</button>
+        </div>
+    </header>
+    <hr>
+    <article>
+        <h2>The Creepy Reality of a Demonic God</h2>
+        <p>Okay, so picture this: there’s this super scary being out there, a demonic reality god that’s just waiting in the shadows. It’s so messed up that just thinking about it can freak you out. People who’ve seen it end up with nightmares that make them question everything.</p>
+        <img src="https://via.placeholder.com/666x420" alt="Demonic Reality God">
+        <p>People say they feel this heavy dread, like something's watching them, just waiting to strike. Once you feel its vibe, nothing looks the same. It’s like a switch flips, and you can’t unsee the weirdness.</p>
+        <h3>Chilling Things About This Entity</h3>
+        <ul>
+            <li><strong>Reality Twisting:</strong> Imagine walking down your street and suddenly it’s all messed up—like you’ve jumped into a horror flick, and the shadows are acting all sketchy.</li>
+            <li><strong>Unpredictable:</strong> This god does whatever it wants. Just when you think you get it, it flips the script and leaves you totally confused.</li>
+            <li><strong>Ancient Bad Vibes:</strong> Some say this thing is tied to old myths, and if you dig too deep, good luck getting rid of the creeps that follow you.</li>
+        </ul>
+        <p>If you ever feel that weird dread creeping in, just know it might be this thing watching you. And when it finally shows up, you won’t just be scared—you’ll be wishing you never heard about it.</p>
+    </article>
+
+
+    <div class="tops">
+
     <div class="OnTopOptions">
         <div class="chat-container">
             <div id="chatbox" class="neon-chatbox">
@@ -37,7 +67,8 @@
     <script type="module">
         // Firebase imports
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
-        import { getDatabase, ref, onValue, push, set, update, get } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
+        import { getDatabase, ref as dbRef, onValue, push, set, update, get } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
+        import { getStorage,  ref as storageRef,  listAll, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-storage.js";
         import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
 
         const firebaseConfig = {
@@ -54,7 +85,9 @@
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
         const auth = getAuth(app);
-        
+        const storage = getStorage();
+        const imagesRef = storageRef(storage, 'images');
+
         const sendButton = document.getElementById("sendButton");
         const claimButton = document.getElementById("claimButton");
         const emailInput = document.getElementById("emailInput");
@@ -65,6 +98,47 @@
         const statusMessageDiv = document.getElementById("statusMessage");
         const userInfoDiv = document.getElementById("userInfo");
         const signOutButton = document.getElementById("signOutButton");
+        const announcementDiv = document.getElementById('announcement');
+        const closeAnnouncementDiv = document.getElementById('close-announcement');
+
+        
+        // Reference to publicAnnouncement in your database
+        const announcementRef = dbRef(database, 'publicAnnouncement');
+        let announcementLink = "";
+
+         // Listen for value changes using onValue
+         onValue(announcementRef, (snapshot) => {
+            const announcementData = snapshot.val();
+            announcementLink = announcementData.link;
+            if (announcementData && announcementData.message) {
+                announcementDiv.textContent = `${announcementData.title}: ${announcementData.message}`; // Update the announcement text
+                announcementDiv.style.display = 'block'; // Show the announcement
+                closeAnnouncementDiv.style.display = 'block';
+
+                console.log(announcementDiv.textContent);
+
+            } else {
+                announcementDiv.style.display = 'none'; // Hide if no announcement
+                console.log("No ann");
+
+            }
+        });
+        window.closeAnn = function() {
+            announcementDiv.style.display = 'none';
+            closeAnnouncementDiv.style.display = 'none';
+        }
+        window.goToAnn = function() {
+            if (announcementLink === ""){
+            } else{
+                const userConfirmed = confirm(`Are you sure you want to go to ${announcementLink}?`);
+                
+                // If the user confirms, navigate to the link
+                if (userConfirmed) {
+                    window.open(announcementLink, '_blank');
+                }
+            }
+        }
+        
         onAuthStateChanged(auth, (user) => {
             checkUser(user);
         });
@@ -76,7 +150,7 @@
                 statusMessageDiv.textContent = "Hello, human.";
 
                 const userEmail = user.email;
-                const userRef = ref(database, `users/${auth.currentUser.uid}`);
+                const userRef = dbRef(database, `users/${auth.currentUser.uid}`);
 
                 // Fetch display name from the database
                 onValue(userRef, (snapshot) => {
@@ -94,8 +168,11 @@
             
             statusMessageDiv.textContent = "Loading messages...";
             setTimeout(() => {
-            const messagesRef = ref(database, 'publicChatRooms/defaultRoom/messages');
+            const messagesRef = dbRef(database, 'publicChatRooms/defaultRoom/messages');
             onValue(messagesRef, (snapshot) => {
+                chatbox.style.display = 'flex' ;
+                openChatButton.style.display ='none';
+
                 const messages = snapshot.val();
                 const messagesDiv = document.getElementById("messages");
                 messagesDiv.innerHTML = '';
@@ -124,7 +201,7 @@
 
         let existingDisplayNames = [];
 
-        const publicDisplayNamesRef = ref(database,'publicDisplayNames');
+        const publicDisplayNamesRef = dbRef(database,'publicDisplayNames');
 
         onValue(publicDisplayNamesRef, (snapshot) => {
         const allDisplayNames = snapshot.val();
@@ -189,7 +266,7 @@
             console.log("Sending with user");
 
             const userEmail = user.email;
-            const userRef = ref(database, `users/${auth.currentUser.uid}`);
+            const userRef = dbRef(database, `users/${auth.currentUser.uid}`);
             if (displayNameInput.value !== "") {
                 if (existingDisplayNames.includes(displayName)) {
                     console.log("ALREADY TAKEN");
@@ -214,7 +291,7 @@
                     ownerId: auth.currentUser.uid
                 };
 
-                push(ref(database, 'publicChatRooms/defaultRoom/messages'), messageData)
+                push(dbRef(database, 'publicChatRooms/defaultRoom/messages'), messageData)
                     .then(() => {
                         updateUIForLoggedInUser(displayName);
                         messageInput.value = "";
@@ -240,7 +317,7 @@
                     timestamp: Date.now(),
                     ownerId: "anon"
                 };
-                push(ref(database, 'publicChatRooms/defaultRoom/messages'), messageData)
+                push(dbRef(database, 'publicChatRooms/defaultRoom/messages'), messageData)
                     .then(() => {
                         console.log("anonymous push called");
                         messageInput.value = "";
@@ -268,7 +345,7 @@
                                 saveDisplayName(userEmail, displayNameInput.value.trim());
                             }
                             // Fetch the display name from the database
-                            const userRef = ref(database, `users/${auth.currentUser.uid}`);
+                            const userRef = dbRef(database, `users/${auth.currentUser.uid}`);
                             get(userRef).then((snapshot) => {
                                 if (isBusySending) return;
                                  isBusySending = true;
@@ -283,7 +360,7 @@
                                     ownerId: auth.currentUser.uid
                                 };
                                 
-                                push(ref(database, 'publicChatRooms/defaultRoom/messages'), messageData)
+                                push(dbRef(database, 'publicChatRooms/defaultRoom/messages'), messageData)
                                 .then(() => {
                                     console.log("signed in sent message called");
                                     statusMessageDiv.textContent = "";
@@ -333,7 +410,7 @@
                                             ownerId: auth.currentUser.uid
                                         };
 
-                                        push(ref(database, 'publicChatRooms/defaultRoom/messages'), messageData)
+                                        push(dbRef(database, 'publicChatRooms/defaultRoom/messages'), messageData)
                                             .then(() => {
                                                 statusMessageDiv.textContent = "";
                                                 console.log("registration 01 push called");
@@ -376,7 +453,7 @@
                                             ownerId: auth.currentUser.uid
                                         };
 
-                                        push(ref(database, 'publicChatRooms/defaultRoom/messages'), messageData)
+                                        push(dbRef(database, 'publicChatRooms/defaultRoom/messages'), messageData)
                                             .then(() => {
                                                 statusMessageDiv.textContent = "";
                                                 console.log("registration 02 push called");
@@ -429,8 +506,8 @@
                 return false; // Return false if the name is taken
             }
 
-            const userRef = ref(database, `users/${auth.currentUser.uid}`);
-            const publicDisplayNamesRef  = ref(database, `publicDisplayNames/${auth.currentUser.uid}`);
+            const userRef = dbRef(database, `users/${auth.currentUser.uid}`);
+            const publicDisplayNamesRef  = dbRef(database, `publicDisplayNames/${auth.currentUser.uid}`);
             try {
                 await update(userRef, { 
                     displayName, 
@@ -526,58 +603,90 @@
                 });
         };
 
-    </script>
+    let showDraggables = true;
+    if (showDraggables) {
+        
+    // List all items (images) under the 'images' reference
+    listAll(imagesRef).then((res) => {
+        if (res.items.length > 0) {
+            res.items.forEach((itemRef) => {
+                // Get download URL for each image
+                getDownloadURL(itemRef).then((url) => {
+                    createDraggableImage(url); // Create draggable image for each URL
+                }).catch((error) => {
+                    console.error("Error getting image URL:", error);
+                });
+            });
+        } else {
+            console.log("No images found.");
+        }
+    }).catch((error) => {
+        console.error("Error listing images:", error);
+    });
+// Function to create draggable images
+function createDraggableImage(imageUrl) {
+    const img = document.createElement('img');
+    img.src = imageUrl;
+    img.className = 'draggable';
+    img.style.position = 'absolute';
+    img.style.width = '100px'; // Set a width
+    img.style.height = '100px'; // Set a height
+    img.setAttribute('draggable', false); // Prevent default dragging behavior
 
+    const maxWidth = window.innerWidth - 100; // Adjust for element width
+    const maxHeight = window.innerHeight - 100; // Adjust for element height
+    const randomLeft = Math.floor(Math.random() * maxWidth);
+    const randomTop = Math.floor(Math.random() * maxHeight);
+    img.style.left = randomLeft + 'px';
+    img.style.top = randomTop + 'px';
 
+    document.body.appendChild(img);
+    makeDraggable(img);
+}
 
-
-
-<div class="draggable" id="draggable">Drag Me!</div>
-
-
-<script>
-    const draggable = document.getElementById('draggable');
-
-    // Set initial position
-    draggable.style.left = '50px';
-    draggable.style.top = '50px';
-
+// Function to make images draggable
+function makeDraggable(element) {
     let offsetX, offsetY;
 
-    draggable.addEventListener('mousedown', (e) => {
-        offsetX = e.clientX - draggable.getBoundingClientRect().left;
-        offsetY = e.clientY - draggable.getBoundingClientRect().top;
+    element.addEventListener('mousedown', (e) => {
+        e.preventDefault(); // Prevent default behavior like selecting text or dragging
 
+        // Calculate the offset between the mouse click position and the image's position
+        const rect = element.getBoundingClientRect();
+        offsetX = e.clientX - rect.left; // Horizontal offset
+        offsetY = e.clientY - rect.top; // Vertical offset
+
+        // Add event listeners for moving the image
         document.addEventListener('mousemove', mouseMoveHandler);
-        document.addEventListener('mouseup', mouseUpHandler);
     });
 
     function mouseMoveHandler(e) {
-        let newX = e.clientX - offsetX;
-        let newY = e.clientY - offsetY;
+        // Calculate the new position of the image
+        const newX = e.clientX - offsetX; // Horizontal position
+        const newY = e.clientY - offsetY; // Vertical position
 
-        // Get viewport dimensions
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
 
-        // Constrain the draggable element within the viewport
-        if (newX < 0) newX = 0; // Left boundary
-        if (newY < 0) newY = 0; // Top boundary
-        if (newX + draggable.offsetWidth > viewportWidth) {
-            newX = viewportWidth - draggable.offsetWidth; // Right boundary
-        }
-        if (newY + draggable.offsetHeight > viewportHeight) {
-            newY = viewportHeight - draggable.offsetHeight; // Bottom boundary
-        }
+        // Ensure the image stays within the viewport
+        const constrainedX = Math.max(0, Math.min(newX, viewportWidth - element.offsetWidth));
+        const constrainedY = Math.max(0, Math.min(newY, viewportHeight - element.offsetHeight));
 
-        draggable.style.left = `${newX}px`;
-        draggable.style.top = `${newY}px`;
+        // Update the position of the image
+        element.style.left = `${constrainedX}px`;
+        element.style.top = `${constrainedY}px`;
+
     }
 
-    function mouseUpHandler() {
+    // Stop moving the image when mouse is released
+    document.addEventListener('mouseup', () => {
         document.removeEventListener('mousemove', mouseMoveHandler);
-        document.removeEventListener('mouseup', mouseUpHandler);
-    }
+    });
+}
+
+}
 </script>
+
+</div>
 </body>
 </html>
