@@ -1,3 +1,25 @@
+
+.hpns > *:hover {
+    transform: scale(1.8) rotate(2deg); /* Slightly reduce scale and rotation */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.hpns > * span {
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.hpns > * {
+    display: inline-block;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+a {
+    all: unset; /* Resets all styles to the default state */
+    text-decoration: none; /* Remove underline */
+    color: inherit; /* Inherit color from parent element */
+    cursor: pointer; /* Ensures the cursor changes to pointer on hover */
+}
+
 .bns{
     color: #0ff;
     margin: 3px;
@@ -13,8 +35,8 @@
     text-align: center; /* Center the text */
     color: #ff69b4; /* Pink color for the text */
     background: linear-gradient(45deg, #ffcc00, #ff69b4); /* Gradient background */
-    -webkit-background-clip: text; /* Clip background to text */
-    -webkit-text-fill-color: transparent; /* Fill text with gradient */
+    -webkit-background-clip: text;
+    /* -webkit-text-fill-color: transparent; */
     position: relative; /* For positioning the sparkle */
     animation: sparkle 1.5s infinite; /* Animation for shine effect */
     text-shadow: 
@@ -108,7 +130,9 @@
 
 body {
     background-color: #222;
-    margin: 0;
+    margin: 0;    
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 header{
     margin: 10px;

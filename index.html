@@ -656,23 +656,24 @@
     let showDraggables = true;
     if (showDraggables) {
         
-    // List all items (images) under the 'images' reference
-    listAll(imagesRef).then((res) => {
-        if (res.items.length > 0) {
-            res.items.forEach((itemRef) => {
-                // Get download URL for each image
-                getDownloadURL(itemRef).then((url) => {
-                    createDraggableImage(url); // Create draggable image for each URL
-                }).catch((error) => {
-                    console.error("Error getting image URL:", error);
-                });
+// List all items (images) under the 'images' reference
+listAll(imagesRef).then((res) => {
+    if (res.items.length > 0) {
+        res.items.forEach((itemRef) => {
+            // Get download URL for each image
+            getDownloadURL(itemRef).then((url) => {
+                createDraggableImage(url); // Create draggable image for each URL
+            }).catch((error) => {
+                console.error("Error getting image URL:", error);
             });
-        } else {
-            console.log("No images found.");
-        }
-    }).catch((error) => {
-        console.error("Error listing images:", error);
-    });
+        });
+    } else {
+        console.log("No images found.");
+    }
+}).catch((error) => {
+    console.error("Error listing images:", error);
+});
+
 // Function to create draggable images
 function createDraggableImage(imageUrl) {
     const img = document.createElement('img');
@@ -711,12 +712,12 @@ function makeDraggable(element) {
     });
 
     function mouseMoveHandler(e) {
-        // Calculate the new position of the image
-        const newX = e.clientX - offsetX; // Horizontal position
-        const newY = e.clientY - offsetY; // Vertical position
+        // Calculate the new position of the image, accounting for scroll
+        const newX = e.clientX - offsetX + window.scrollX; // Horizontal position, adjusted for horizontal scroll
+        const newY = e.clientY - offsetY + window.scrollY; // Vertical position, adjusted for vertical scroll
 
-        const viewportWidth = window.innerWidth;
-        const viewportHeight = window.innerHeight;
+        const viewportWidth = window.innerWidth + window.scrollX; // Adjust for horizontal scroll
+        const viewportHeight = window.innerHeight + window.scrollY; // Adjust for vertical scroll
 
         // Ensure the image stays within the viewport
         const constrainedX = Math.max(0, Math.min(newX, viewportWidth - element.offsetWidth));
@@ -725,7 +726,6 @@ function makeDraggable(element) {
         // Update the position of the image
         element.style.left = `${constrainedX}px`;
         element.style.top = `${constrainedY}px`;
-
     }
 
     // Stop moving the image when mouse is released
