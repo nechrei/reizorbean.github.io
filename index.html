@@ -9,30 +9,31 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <div id="chatbox" class="neon-chatbox">
-            <div class="chat-header">
-                Chat Room 
-                <button class="minimize-button" onclick="toggleChatbox()">&#x25BC;</button>
+    <div class="OnTopOptions">
+        <div class="chat-container">
+            <div id="chatbox" class="neon-chatbox">
+                <div class="chat-header">
+                    Chat Room 
+                    <button class="minimize-button" onclick="toggleChatbox()">&#x25BC;</button>
+                </div>
+                <div class="messages" id="messages"></div>
+                <div id="statusMessage" class="status-message" style="color: red;">Loading messages...</div>
+                <div id="userInfo" class="user-info" style="color: rgb(81, 165, 229);"></div>
+                <input type="text" id="messageInput" class="message-input" placeholder="Type a message..." />
+                <button id="sendButton" class="send-button" onclick="sendMessage()">Send</button>
+                <button id="claimButton" class="claim-button" onclick="claimDisplayName()">display name options</button>
+                <div id="claim" class="claim" style="color: rgba(36, 102, 255, 0.711);">
+                    <div id="descLogin" class="desc-login" style="color: rgba(36, 102, 255, 0.711);">Claim display name with seamless login, register, name, pw change:</div>
+                    <input type="text" id="displayNameInput" class="display-name-input" placeholder="Enter your display name..." />
+                    <input type="text" id="emailInput" class="name-input" placeholder="Enter your email..." />
+                    <input type="password" id="passwordInput" class="password-input" placeholder="Enter your password..." />
+                    <button id="forgotPasswordButton" class="forgot-password-button" onclick="forgotPassword()">Forgot Password?</button>
+                    <button id="signOutButton" class="sign-out-button" onclick="signOut()">sign out</button>
+                </div>
             </div>
-            <div class="messages" id="messages"></div>
-            <div id="statusMessage" class="status-message" style="color: red;">Loading messages...</div>
-            <div id="userInfo" class="user-info" style="color: rgb(81, 165, 229);"></div>
-            <input type="text" id="messageInput" class="message-input" placeholder="Type a message..." />
-            <button id="sendButton" class="send-button" onclick="sendMessage()">Send</button>
-            <button id="claimButton" class="claim-button" onclick="claimDisplayName()">display name options</button>
-            <div id="claim" class="claim" style="color: rgba(36, 102, 255, 0.711);">
-                <div id="descLogin" class="desc-login" style="color: rgba(36, 102, 255, 0.711);">Claim display name with seamless login, register, name, pw change:</div>
-                <input type="text" id="displayNameInput" class="display-name-input" placeholder="Enter your display name..." />
-                <input type="text" id="emailInput" class="name-input" placeholder="Enter your email..." />
-                <input type="password" id="passwordInput" class="password-input" placeholder="Enter your password..." />
-                <button id="forgotPasswordButton" class="forgot-password-button" onclick="forgotPassword()">Forgot Password?</button>
-                <button id="signOutButton" class="sign-out-button" onclick="signOut()">sign out</button>
-            </div>
+            <button id="openChatButton" class="hidden" onclick="toggleChatbox()">Open Chat</button>
         </div>
-        <button id="openChatButton" class="hidden" onclick="toggleChatbox()">Open Chat</button>
     </div>
-
     <script type="module">
         // Firebase imports
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
@@ -526,5 +527,57 @@
         };
 
     </script>
+
+
+
+
+
+<div class="draggable" id="draggable">Drag Me!</div>
+
+
+<script>
+    const draggable = document.getElementById('draggable');
+
+    // Set initial position
+    draggable.style.left = '50px';
+    draggable.style.top = '50px';
+
+    let offsetX, offsetY;
+
+    draggable.addEventListener('mousedown', (e) => {
+        offsetX = e.clientX - draggable.getBoundingClientRect().left;
+        offsetY = e.clientY - draggable.getBoundingClientRect().top;
+
+        document.addEventListener('mousemove', mouseMoveHandler);
+        document.addEventListener('mouseup', mouseUpHandler);
+    });
+
+    function mouseMoveHandler(e) {
+        let newX = e.clientX - offsetX;
+        let newY = e.clientY - offsetY;
+
+        // Get viewport dimensions
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+
+        // Constrain the draggable element within the viewport
+        if (newX < 0) newX = 0; // Left boundary
+        if (newY < 0) newY = 0; // Top boundary
+        if (newX + draggable.offsetWidth > viewportWidth) {
+            newX = viewportWidth - draggable.offsetWidth; // Right boundary
+        }
+        if (newY + draggable.offsetHeight > viewportHeight) {
+            newY = viewportHeight - draggable.offsetHeight; // Bottom boundary
+        }
+
+        draggable.style.left = `${newX}px`;
+        draggable.style.top = `${newY}px`;
+    }
+
+    function mouseUpHandler() {
+        document.removeEventListener('mousemove', mouseMoveHandler);
+        document.removeEventListener('mouseup', mouseUpHandler);
+    }
+</script>
 </body>
 </html>
