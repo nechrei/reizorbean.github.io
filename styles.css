@@ -100,6 +100,16 @@ a {
 .topic::after {
     bottom: -20px; /* Position of the right star */
     right: 0px; /* Move right */
+    animation:  twinkle 1.5s infinite, rotate 3s infinite, mv 3s infinite;
+}
+
+@keyframes mv {
+    0%, 20%, 100% {
+        right: 62px;  /* Fully visible */
+    }
+    10%, 30% {
+        right: 61px;  /* Partially visible */
+    }
 }
 
 /* Twinkling effect for stars */
