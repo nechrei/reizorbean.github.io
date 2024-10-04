@@ -20,7 +20,7 @@
             <div id="userInfo" class="user-info" style="color: rgb(81, 165, 229);"></div>
             <input type="text" id="messageInput" class="message-input" placeholder="Type a message..." />
             <button id="sendButton" class="send-button" onclick="sendMessage()">Send</button>
-            <div id="descLogin" class="desc-login" style="color: rgba(36, 102, 255, 0.711);">seamless login, register, name, pw change:</div>
+            <div id="descLogin" class="desc-login" style="color: rgba(36, 102, 255, 0.711);">Claim display name with seamless login, register, name, pw change:</div>
             <input type="text" id="displayNameInput" class="display-name-input" placeholder="Enter your display name..." />
             <input type="text" id="emailInput" class="name-input" placeholder="Enter your email..." />
             <input type="password" id="passwordInput" class="password-input" placeholder="Enter your password..." />
@@ -34,7 +34,7 @@
     <script type="module">
         // Firebase imports
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
-        import { getDatabase, ref, onValue, push, set, update } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
+        import { getDatabase, ref, onValue, push, set, update, get } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
         import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
 
         const firebaseConfig = {
@@ -72,7 +72,7 @@
                 statusMessageDiv.textContent = "Hello, human.";
 
                 const userEmail = user.email;
-                const userRef = ref(database, `users/${userEmail.replace('.', ',')}`);
+                const userRef = ref(database, `users/${auth.currentUser.uid}`);
 
                 // Fetch display name from the database
                 onValue(userRef, (snapshot) => {
@@ -87,9 +87,7 @@
             }
         }
         userInfoDiv.textContent = "Anonymous";
-
-
-        // LOADING MESSAGES
+        //signOutButton.style.display = "block";
         function loadMessages() {
             
             statusMessageDiv.textContent = "Loading messages...";
@@ -114,15 +112,37 @@
                 statusMessageDiv.textContent = "Maintenance! Come back tomorrow or later.";
                 sendButton.disabled = true;
             });
-            statusMessageDiv.textContent = "";}, 110);
+            statusMessageDiv.textContent = "";}, 310);
         }
         sendButton.disabled = true;
 
         loadMessages();
-        
+        let isSendingMessage = false;
+        let isBusySending = false;
 
-        // SENDING A MESSAGE
+        let existingDisplayNames = [];
+
+        const publicDisplayNamesRef = ref(database,'publicDisplayNames');
+
+        onValue(publicDisplayNamesRef, (snapshot) => {
+        const allDisplayNames = snapshot.val();
+        
+        // Extract display names from the data
+        existingDisplayNames = Object.values(allDisplayNames || {}).map(user => user.displayName);
+        
+            // Log all display names
+            //console.log("All Public Display Names:", existingDisplayNames);
+        }, (error) => {
+            console.error("Error fetching public display names:", error);
+        });
+
+        // ---------------------------------------------------------SENDING A MESSAGE
         window.sendMessage = function() {
+
+        if (isSendingMessage) return;
+        isSendingMessage = true;
+
+        console.log("sendMessage called");
         sendButton.disabled = true;
         statusMessageDiv.textContent = "Loading...";
 
@@ -141,27 +161,38 @@
         const user = auth.currentUser;
 
         if (user) {
-            const userEmail = user.email;
-            const userRef = ref(database, `users/${userEmail.replace('.', ',')}`);
+            console.log("Sending with user");
 
+            const userEmail = user.email;
+            const userRef = ref(database, `users/${auth.currentUser.uid}`);
+            if (displayNameInput.value !== "") {
+                if (existingDisplayNames.includes(displayName)) {
+                    console.log("ALREADY TAKEN");
+                    statusMessageDiv.textContent = "Display name already taken. Please choose another.";
+                    sendButton.disabled = false;
+                    return; // Return false if the name is taken
+                }
+                saveDisplayName(userEmail, displayNameInput.value.trim());
+            }
             // Fetch display name from the database
-            onValue(userRef, (snapshot) => {
+            get(userRef).then((snapshot) => {
+                if (isBusySending) return;
+                isBusySending = true;
+
                 const userData = snapshot.val();
                 const displayName = userData.displayName || 'Anonymous';
 
                 const messageData = {
                     name: displayName,
                     text: messageText,
-                    timestamp: Date.now()
+                    timestamp: Date.now(),
+                    ownerId: auth.currentUser.uid
                 };
 
                 push(ref(database, 'publicChatRooms/defaultRoom/messages'), messageData)
                     .then(() => {
-                        messageInput.value = "";
                         updateUIForLoggedInUser(displayName);
-                        if (displayNameInput.value !== "") {
-                            saveDisplayName(userEmail, displayNameInput.value.trim());
-                        }
+                        messageInput.value = "";
                         statusMessageDiv.textContent = `Message sent. ${new Date(Date.now()).toLocaleTimeString()}`;
                         passwordInput.value = ""; // Clear password
                         displayNameInput.value = "";
@@ -181,10 +212,12 @@
                 const messageData = {
                     name: "Anonymous",
                     text: messageText,
-                    timestamp: Date.now()
+                    timestamp: Date.now(),
+                    ownerId: "anon"
                 };
                 push(ref(database, 'publicChatRooms/defaultRoom/messages'), messageData)
                     .then(() => {
+                        console.log("anonymous push called");
                         messageInput.value = "";
                         statusMessageDiv.textContent = "Message sent as Anonymous.";
                         userInfo.textContent = "Anonymous";
@@ -200,10 +233,20 @@
                     signInWithEmailAndPassword(auth, userEmail, userPassword)
                         .then(() => {
                             sendButton.disabled = true;
-
+                            if (displayNameInput.value !== "") {
+                                if (existingDisplayNames.includes(displayNameInput.value)) {
+                                    console.log("ALREADY TAKEN");
+                                    statusMessageDiv.textContent = "Display name already taken. Please choose another.";
+                                    sendButton.disabled = false;
+                                    return; // Return false if the name is taken
+                                }
+                                saveDisplayName(userEmail, displayNameInput.value.trim());
+                            }
                             // Fetch the display name from the database
-                            const userRef = ref(database, `users/${userEmail.replace('.', ',')}`);
-                            onValue(userRef, (snapshot) => {
+                            const userRef = ref(database, `users/${auth.currentUser.uid}`);
+                            get(userRef).then((snapshot) => {
+                                if (isBusySending) return;
+                                 isBusySending = true;
 
                                 const userData = snapshot.val();
                                 const displayName = userData.displayName || 'Error loading name';
@@ -211,19 +254,20 @@
                                 const messageData = {
                                     name: displayName, // Use display name from database
                                     text: messageText,
-                                    timestamp: Date.now()
+                                    timestamp: Date.now(),
+                                    ownerId: auth.currentUser.uid
                                 };
+                                
                                 push(ref(database, 'publicChatRooms/defaultRoom/messages'), messageData)
                                 .then(() => {
+                                    console.log("signed in sent message called");
                                     statusMessageDiv.textContent = "";
-
+                                    
                                     messageInput.value = "";
                                     passwordInput.value = ""; // Clear password
                                     updateUIForLoggedInUser(displayName);
-                                    if (displayNameInput.value !== "") {
-                                    saveDisplayName(userEmail, displayNameInput.value.trim());
-                                    }
                                     displayNameInput.value = "";
+                                    
                                     sendButton.disabled = false;
                                     
                                 })
@@ -232,6 +276,9 @@
                                     statusMessageDiv.textContent = "Maintenance! Come back tomorrow or later.";
                                     sendButton.disabled = true;
                                 });  
+                            }).catch((error) => {
+                                console.error('Error fetching user data on sign in!!:', error);
+                                statusMessageDiv.textContent = "Error";
                             });
                         })
                         .catch((error) => {
@@ -239,23 +286,35 @@
 
                             if (error.code === 'auth/user-not-found') {
                                 // Not registered, attempt to register
+                                let displayName = displayNameInput.value.trim();
+                                displayName = displayName === "" ? generateDisplayNameWithToken() : displayName;
+                                if (existingDisplayNames.includes(displayName)) {
+                                    console.log("ALREADY TAKEN");
+                                    statusMessageDiv.textContent = "Display name already taken. Please choose another.";
+                                    sendButton.disabled = false;
+                                    return; // Return false if the name is taken
+                                }
+                                console.log("Sending with user2");
                                 createUserWithEmailAndPassword(auth, userEmail, userPassword)
                                     .then(() => {
-                                        const displayName = displayNameInput.value.trim();
-
+                                        if (!saveDisplayName(userEmail, displayName)){
+                                            console.log("FAILED DISPLAY NAME");
+                                            statusMessageDiv.textContent =  "Failed.";
+                                        }
                                         const messageData = {
                                             text: messageText,
                                             name: displayName,
-                                            timestamp: Date.now()
+                                            timestamp: Date.now(),
+                                            ownerId: auth.currentUser.uid
                                         };
+
                                         push(ref(database, 'publicChatRooms/defaultRoom/messages'), messageData)
                                             .then(() => {
                                                 statusMessageDiv.textContent = "";
-
+                                                console.log("registration 01 push called");
                                                 messageInput.value = "";
                                                 passwordInput.value = ""; // Clear password
                                                 updateUIForNewRegisteredInUser(displayName);
-                                                saveDisplayName(userEmail, displayName);
                                                 sendButton.disabled = false;
                                             })
                                             .catch((error) => {
@@ -267,24 +326,38 @@
                                     .catch((error) => {
                                         statusMessageDiv.textContent = error.message;
                                     });
+                                
                             } else if (error.code === 'auth/invalid-credential') {
+                                console.log("Sending with user3");
+
+                                let displayName = displayNameInput.value.trim();
+                                displayName = displayName === "" ? generateDisplayNameWithToken() : displayName;
+                                if (existingDisplayNames.includes(displayName)) {
+                                    console.log("ALREADY TAKEN");
+                                    statusMessageDiv.textContent = "Display name already taken. Please choose another.";
+                                    sendButton.disabled = false;
+                                    return; // Return false if the name is taken
+                                }
                                     createUserWithEmailAndPassword(auth, userEmail, userPassword)
                                     .then(() => {
-                                        const displayName = displayNameInput.value.trim();
-
+                                         if (!saveDisplayName(userEmail, displayName)){
+                                            console.log("FAILED DISPLAY NAME");
+                                            statusMessageDiv.textContent =  "Failed.";
+                                        }
                                         const messageData = {
                                             text: messageText,
                                             name: displayName,
-                                            timestamp: Date.now()
+                                            timestamp: Date.now(),
+                                            ownerId: auth.currentUser.uid
                                         };
+
                                         push(ref(database, 'publicChatRooms/defaultRoom/messages'), messageData)
                                             .then(() => {
                                                 statusMessageDiv.textContent = "";
-
+                                                console.log("registration 02 push called");
                                                 messageInput.value = "";
                                                 passwordInput.value = ""; // Clear password
                                                 updateUIForNewRegisteredInUser(displayName);
-                                                saveDisplayName(userEmail, displayName);
                                                 sendButton.disabled = false;
 
                                             })
@@ -297,6 +370,7 @@
                                     .catch((error) => {
                                         statusMessageDiv.textContent = "Something went wrong. Please try it again or nech an696 9 at gmaildotcom for support. or make sure your password is correct.";
                                     });
+                               
                             } else if (error.code === 'auth/missing-password') {
                                 statusMessageDiv.textContent =  "Enter password.";
                             } else {
@@ -306,16 +380,67 @@
                         });
                 }
             }
-        }, 1000);
+            isSendingMessage = false;
+            isBusySending = false;
+
+            }, 1250);
+
+            isSendingMessage = false;
+            isBusySending = false;
         }
-        
-        function saveDisplayName(userEmail, displayName) {
-        const userRef = ref(database, `users/${userEmail.replace('.', ',')}`); // Directly set displayName
-        update(userRef, { displayName })
-            .catch((error) => {
+        let isBusyUpdatingName = false;
+
+
+        async function saveDisplayName(userEmail, displayName) {
+            if (isBusyUpdatingName) return false; // Return false if already busy
+            
+            isBusyUpdatingName = true;
+
+            if (existingDisplayNames.includes(displayName)) {
+                console.log("ALREADY TAKEN");
+                statusMessageDiv.textContent = "Display name already taken. Please choose another.";
+                sendButton.disabled = false;
+                isBusyUpdatingName = false; // Reset the busy state
+                return false; // Return false if the name is taken
+            }
+
+            const userRef = ref(database, `users/${auth.currentUser.uid}`);
+            const publicDisplayNamesRef  = ref(database, `publicDisplayNames/${auth.currentUser.uid}`);
+            try {
+                await update(userRef, { 
+                    displayName, 
+                    email: userEmail 
+                });
+                await set(publicDisplayNamesRef, { displayName })
+                .then(() => {
+                    console.log("Display name updated successfully!");
+                })
+                .catch((error) => {
+                    console.error("Error updating display name:", error);
+                });
+
+                statusMessageDiv.textContent = "Display name changed.";
+                console.log("Display name changed.");
+                return true; // Return true on success
+            } catch (error) {
                 console.error("Error writing data:", error);
                 statusMessageDiv.textContent = error.message;
-            });
+                return false; // Return false on error
+            } finally {
+                isBusyUpdatingName = false; // Reset the busy state
+            }
+        }
+
+
+        function generateDisplayNameWithToken() {
+            let randomToken;
+            
+            // Generate a unique token
+            do {
+                randomToken = Math.random().toString(36).substring(2, 12);
+            } while (existingDisplayNames.includes(`User_${randomToken}`)); // Check for duplicates
+
+            return `User_${randomToken}`; // Return the unique display name
         }
 
         function updateUIForLoggedInUser(displayName) {
@@ -360,6 +485,7 @@
             passwordInput.value = ""; // Clear password input
             displayNameInput.value = ""; // Clear display name input
             userInfo.textContent = "";
+            signOutButton.style.display = "none";
         }
 
         window.signOut = function() {
