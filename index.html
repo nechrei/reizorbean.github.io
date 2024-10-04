@@ -20,13 +20,15 @@
             <div id="userInfo" class="user-info" style="color: rgb(81, 165, 229);"></div>
             <input type="text" id="messageInput" class="message-input" placeholder="Type a message..." />
             <button id="sendButton" class="send-button" onclick="sendMessage()">Send</button>
-            <div id="descLogin" class="desc-login" style="color: rgba(36, 102, 255, 0.711);">Claim display name with seamless login, register, name, pw change:</div>
-            <input type="text" id="displayNameInput" class="display-name-input" placeholder="Enter your display name..." />
-            <input type="text" id="emailInput" class="name-input" placeholder="Enter your email..." />
-            <input type="password" id="passwordInput" class="password-input" placeholder="Enter your password..." />
-            <button id="forgotPasswordButton" class="forgot-password-button" onclick="forgotPassword()">Forgot Password?</button>
-            <button id="signOutButton" class="sign-out-button" onclick="signOut()">sign out</button>
-
+            <button id="claimButton" class="claim-button" onclick="claimDisplayName()">display name options</button>
+            <div id="claim" class="claim" style="color: rgba(36, 102, 255, 0.711);">
+                <div id="descLogin" class="desc-login" style="color: rgba(36, 102, 255, 0.711);">Claim display name with seamless login, register, name, pw change:</div>
+                <input type="text" id="displayNameInput" class="display-name-input" placeholder="Enter your display name..." />
+                <input type="text" id="emailInput" class="name-input" placeholder="Enter your email..." />
+                <input type="password" id="passwordInput" class="password-input" placeholder="Enter your password..." />
+                <button id="forgotPasswordButton" class="forgot-password-button" onclick="forgotPassword()">Forgot Password?</button>
+                <button id="signOutButton" class="sign-out-button" onclick="signOut()">sign out</button>
+            </div>
         </div>
         <button id="openChatButton" class="hidden" onclick="toggleChatbox()">Open Chat</button>
     </div>
@@ -53,6 +55,7 @@
         const auth = getAuth(app);
         
         const sendButton = document.getElementById("sendButton");
+        const claimButton = document.getElementById("claimButton");
         const emailInput = document.getElementById("emailInput");
         const passwordInput = document.getElementById("passwordInput");
         const messageInput = document.getElementById("messageInput");
@@ -135,6 +138,29 @@
         }, (error) => {
             console.error("Error fetching public display names:", error);
         });
+
+        let openedClaimBox = false;
+
+        window.claimDisplayName = function() {
+            if (!openedClaimBox){
+                // Display a confirmation dialog
+                const userConfirmed = confirm("You will need to claim your display name using an email address and a password of your choice. Please create a random password that you do not use elsewhere, and reserve it solely for this page. I can view your email address but will not have access to it.");
+
+                // If the user clicks Cancel, return early
+                if (!userConfirmed) {
+                    return;
+                }
+            }
+
+            const claimDiv = document.getElementById('claim');
+            if (claimDiv.style.display === "none" || claimDiv.style.display === "") {
+                openedClaimBox = true;
+                claimDiv.style.display = "contents"; // Show the contents
+            } else {
+                openedClaimBox = false;
+                claimDiv.style.display = "none"; // Hide the contents
+            }
+        }
 
         // ---------------------------------------------------------SENDING A MESSAGE
         window.sendMessage = function() {
