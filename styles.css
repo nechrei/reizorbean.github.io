@@ -1,3 +1,91 @@
+.bns{
+    color: #0ff;
+    margin: 3px;
+}
+.topic {
+    font-family: 'Comic Sans MS', cursive, sans-serif; /* Cute font */
+    font-size: 4em; /* Large font size */
+    text-align: center; /* Center the text */
+    color: #ff69b4; /* Pink color for the text */
+    background: linear-gradient(45deg, #ffcc00, #ff69b4); /* Gradient background */
+    -webkit-background-clip: text; /* Clip background to text */
+    -webkit-text-fill-color: transparent; /* Fill text with gradient */
+    position: relative; /* For positioning the sparkle */
+    animation: sparkle 1.5s infinite; /* Animation for shine effect */
+    text-shadow: 
+        0 0 5px rgba(255, 105, 180, 0.8),
+        0 0 10px rgba(255, 105, 180, 0.8),
+        0 0 15px rgba(255, 215, 0, 0.7); /* Add a glowing effect */
+}
+
+@keyframes sparkle {
+    0% {
+        text-shadow: 
+            0 0 5px rgba(255, 105, 180, 0.8),
+            0 0 10px rgba(255, 105, 180, 0.8),
+            0 0 5px rgba(255, 215, 0, 0.7);
+    }
+    20% {
+        text-shadow: 
+            0 0 10px rgba(255, 105, 180, 1),
+            0 0 5px rgb(255, 187, 13),
+            0 0 22px rgb(204, 75, 255);
+    }
+    100% {
+        text-shadow: 
+            0 0 5px rgba(255, 105, 180, 0.8),
+            0 0 10px rgba(255, 105, 180, 0.8),
+            0 0 15px rgba(255, 215, 0, 0.7);
+    }
+}
+/* Star styles */
+.topic::before,
+.topic::after {
+    content: '★'; /* Star character */
+    position: absolute;
+    font-size: 2em; /* Size of the stars */
+    color: #ffd700; /* Gold color for the stars */
+    transform: rotate(0deg) scale(.5);
+    animation: twinkle 1.5s infinite, rotate 3s infinite; /* Add rotation and twinkling animation */
+}
+
+.topic::before {
+    top: -20px; /* Position of the left star */
+    left: 0px; /* Move left */
+    animation-delay: 0.5s; /* Delay for staggered effect */
+}
+
+.topic::after {
+    bottom: -20px; /* Position of the right star */
+    right: 0px; /* Move right */
+}
+
+/* Twinkling effect for stars */
+@keyframes twinkle {
+    0%, 20%, 100% {
+        opacity: 1; /* Fully visible */
+    }
+    10%, 30% {
+        opacity: 0.5; /* Partially visible */
+    }
+}
+/* Rotation effect for stars */
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg) scale(.5); /* Start at original position and size */
+    }
+    50% {
+        transform: rotate(180deg) scale(1.2); /* Rotate and slightly enlarge */
+    }
+    100% {
+        transform: rotate(360deg) scale(.5); /* Back to original */
+    }
+}
+
+.musicstashembed{
+    margin: 10px;
+}
+
 body {
     background-color: #222;
     margin: 0;
