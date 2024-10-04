@@ -50,6 +50,7 @@ body {
     text-align: center;
     font-size: 1.5em;
     text-shadow: 0 0 5px #fff, 0 0 10px #fff;
+    user-select: none; 
 }
 
 .messages {
@@ -128,8 +129,15 @@ body {
     padding-bottom: 1px;
     user-select: none; 
 }
-
-
+.minimize-button{
+    background-color: rgba(61, 171, 255, 0.319);    
+    color: rgba(0, 0, 49, 0.86);
+    border-radius: 3px;
+    border: 0px;
+    cursor: pointer;}
+.minimize-button:hover {
+    background-color: rgb(36, 92, 212);
+}
 .hidden {
     display: none;
 }
