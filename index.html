@@ -58,6 +58,17 @@
         </div>
     </div>
     <script type="module">
+        var good = false;
+        document.addEventListener("DOMContentLoaded", function() {
+            if (window.location.href === "https://zeddychan.netlify.app/" || "http://127.0.0.1:5500/index.html") {
+                good = true;
+            } else {
+                document.body.innerHTML = '?'; 
+                confirm("?");
+
+                return; 
+            }
+        });
                 // Array of YouTube links
         let musiclist = [
 
