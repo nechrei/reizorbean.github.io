@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Zeddychan is a public playground. We can both be anonymous and share our thoughts each day. We love horror, conspiracies and some memes.">
-    <title>Zeddychan</title>
+    <meta name="description" content="two red chili eyes is an investigation.">
+    <title>two red chili eyes</title>
     <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
 
@@ -13,8 +13,8 @@
 </head>
 <body>
     <header>
-        <div>Zeddychan</div>
-        <div>Zeddychan is a public playground. We can both be anonymous and share our thoughts each day. We love horror, conspiracies and some memes.</div>
+        <div>two red chili eyes</div>
+        <div>two red chili eyes is an investigation.</div>
         <div class="annPos">
             <button title="announcement" class="announcement" id="announcement" onclick="goToAnn()">
             </button>
@@ -24,15 +24,27 @@
     </header>
     <hr>
     <article>
-        Beans, my one and only!
+        <h2>The Creepy Reality of a Demonic God</h2>
+        <p>Okay, so picture this: there’s this super scary being out there, a demonic reality god that’s just waiting in the shadows. It’s so messed up that just thinking about it can freak you out. People who’ve seen it end up with nightmares that make them question everything.</p>
+        <img src="https://via.placeholder.com/666x420" alt="Demonic Reality God">
+        <p>People say they feel this heavy dread, like something's watching them, just waiting to strike. Once you feel its vibe, nothing looks the same. It’s like a switch flips, and you can’t unsee the weirdness.</p>
+        <h3>Chilling Things About This Entity</h3>
+        <ul>
+            <li><strong>Reality Twisting:</strong> Imagine walking down your street and suddenly it’s all messed up—like you’ve jumped into a horror flick, and the shadows are acting all sketchy.</li>
+            <li><strong>Unpredictable:</strong> This god does whatever it wants. Just when you think you get it, it flips the script and leaves you totally confused.</li>
+            <li><strong>Ancient Bad Vibes:</strong> Some say this thing is tied to old myths, and if you dig too deep, good luck getting rid of the creeps that follow you.</li>
+        </ul>
+        <p>If you ever feel that weird dread creeping in, just know it might be this thing watching you. And when it finally shows up, you won’t just be scared—you’ll be wishing you never heard about it.</p>
     </article>
+
+
     <div class="tops">
 
     <div class="OnTopOptions">
         <div class="chat-container">
             <div id="chatbox" class="neon-chatbox">
                 <div class="chat-header">
-                    Public Lobby 
+                    Chat Room 
                     <button class="minimize-button" onclick="toggleChatbox()">&#x25BC;</button>
                 </div>
                 <div class="messages" id="messages"></div>
@@ -61,14 +73,14 @@
         import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
 
         const firebaseConfig = {
-            apiKey: "AIzaSyCcV2wJ2tvOYEH_tW1sIi3YXOURy6h7VTo",
-            authDomain: "zeddychan.firebaseapp.com",
-            databaseURL: "https://zeddychan-default-rtdb.firebaseio.com",
-            projectId: "zeddychan",
-            storageBucket: "zeddychan.appspot.com",
-            messagingSenderId: "556479718409",
-            appId: "1:556479718409:web:c6bfd066216922f35484d8",
-            measurementId: "G-8W0CHH4G68"
+            apiKey: "AIzaSyBOm5agPwKhYayOThn-FgDKcntIo5QC3UE",
+            authDomain: "two-red-chili-eyes.firebaseapp.com",
+            databaseURL: "https://two-red-chili-eyes-default-rtdb.firebaseio.com",
+            projectId: "two-red-chili-eyes",
+            storageBucket: "two-red-chili-eyes.appspot.com",
+            messagingSenderId: "647614610314",
+            appId: "1:647614610314:web:a159990204b66e19b82673",
+            measurementId: "G-BL515L3JX1"
         };
 
         const app = initializeApp(firebaseConfig);
