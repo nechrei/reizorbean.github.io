@@ -1,2 +1,2 @@
-# [zeddychan.github.io](https://zeddychan.github.io/)
-zeddy
+# [zeddychan.netlify.app](https://zeddychan.netlify.app/)
+
