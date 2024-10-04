@@ -58,17 +58,16 @@
         </div>
     </div>
     <script type="module">
-        var good = false;
-        document.addEventListener("DOMContentLoaded", function() {
-            if (window.location.href === "https://zeddychan.netlify.app/" || "http://127.0.0.1:5500/index.html") {
-                good = true;
-            } else {
-                document.body.innerHTML = '?'; 
-                confirm("?");
+          // Firebase imports
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+        import { getDatabase, ref as dbRef, onValue, push, set, update, get } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
+        import { getStorage,  ref as storageRef,  listAll, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-storage.js";
+        import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
 
-                return; 
-            }
-        });
+        document.addEventListener("DOMContentLoaded", function() {
+            if (window.location.href === "https://tworedchillieyes.netlify.app/" || window.location.href === "http://127.0.0.1:5500/index.html") {
+                document.body.classList.remove('hide');
+
                 // Array of YouTube links
         let musiclist = [
 
@@ -106,12 +105,6 @@
 
         // Call the function to embed videos
         embedYouTubeVideos(musiclist);
-
-        // Firebase imports
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
-        import { getDatabase, ref as dbRef, onValue, push, set, update, get } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
-        import { getStorage,  ref as storageRef,  listAll, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-storage.js";
-        import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCcV2wJ2tvOYEH_tW1sIi3YXOURy6h7VTo",
@@ -727,6 +720,13 @@ function makeDraggable(element) {
 }
 
 }
+} else {
+    document.body.innerHTML = 'Error. Come back again later.'; 
+    confirm("Error. Come back again later.");
+
+    return; 
+    }
+});
 </script>
 
 </div>
