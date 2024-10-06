@@ -139,27 +139,27 @@ li{
 
 .card {
     background-color: rgba(255, 0, 0, 0.1); /* Light red background */
-    border: 2px solid rgba(255, 0, 0, 0.8); /* Neon border */
+    border: 2px solid rgba(255, 82, 82, 0.8); /* Neon border */
     border-radius: 15px; /* More rounded corners */
     padding: 20px;
     margin: 15px;
     text-align: center;
-    box-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 
-                0 0 30px rgba(255, 0, 0, 0.6);
+    box-shadow: 0 0 20px rgba(206, 32, 32, 0.8), 
+                0 0 30px rgba(255, 84, 84, 0.6);
     transition: 0.3s;
     width: 80%; /* Responsive width */
     max-width: 800px; /* Max width for larger screens */
 }
 
-.card h1 {
-    color: rgba(255, 0, 0, 1); /* Bright red text */
-    text-shadow: 0 0 10px rgba(255, 0, 0, 1), 
-                 0 0 20px rgba(255, 0, 0, 0.8);
+.card h2 {
+    color: rgb(188, 237, 255); /* Bright red text */
+    text-shadow: 0 0 33px rgb(84, 255, 252), 
+                 0 0 10px #00ffbffd;
 }
 
 .card p {
     color: rgba(255, 255, 255, 0.9); /* White text */
-    text-shadow: 0 0 5px rgba(255, 255, 255, 1);
+    text-shadow: 0 3 22px rgb(0, 255, 187);
 }
 
 /* Grid layout for sections */
@@ -177,9 +177,6 @@ li{
     box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
 }
 
-.section h2 {
-    color: rgba(255, 0, 0, 1); /* Bright red section titles */
-}
 
 .section p {
     color: rgba(255, 255, 255, 0.9); /* White text for sections */
@@ -187,8 +184,14 @@ li{
 
 /* Hover effect */
 .card:hover {
-    box-shadow: 0 0 30px rgba(255, 0, 0, 1), 
-                0 0 40px rgba(255, 0, 0, 0.8);
+    border-color: #bbf1ff;
+    box-shadow: 0 0 30px rgba(0, 255, 229, 0.607), 
+                0 0 40px rgba(229, 237, 179, 0.8);
+}
+.card:hover h2 {
+    color: rgb(176, 255, 208); /* Bright red text on hover */
+    text-shadow: 0 0 33px rgb(84, 255, 135), 
+                 0 0 40px #00ffbffd; /* Keep the original glow */
 }
 
 
