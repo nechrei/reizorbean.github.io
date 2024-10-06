@@ -322,7 +322,14 @@ li{
     justify-content: center;
     padding: 20px;
     border-radius: 20px;
-    box-shadow: 0px 0px 20px var(--neon-pink), 0px 0px 40px var(--neon-blue);
+    box-shadow: 0px 0px 30px var(--neon-pink), 0px 0px 40px var(--neon-blue);
+}
+.audio-player:hover {
+    border-color: rgb(210, 255, 255);
+    border-width: 3px;
+    box-shadow: 0px 0px 20px var(--neon-pink), 0px 0px 70px var(--neon-blue), 
+                0px 0px 80px rgba(253, 255, 227, 0.661), 0px 0px 70px rgba(245, 254, 255, 0.267);
+    transform: scale(1.003); /* Slightly enlarge the element on hover */
 }
 /* Mobile-specific styles */
 @media (max-width: 570px) { /* 768px is a common breakpoint for tablets and smaller screens */
@@ -401,6 +408,7 @@ a {
         0 0 15px rgba(255, 215, 0, 0.7); /* Add a glowing effect */
 }
 .topic {
+    user-select: none;
     font-family: 'Comic Sans MS', cursive, sans-serif; /* Cute font */
     font-size: 4em; /* Large font size */
     text-align: center; /* Center the text */
@@ -415,7 +423,25 @@ a {
         0 0 10px rgba(255, 105, 180, 0.8),
         0 0 15px rgba(255, 220, 23, 0.976); /* Add a glowing effect */
 }
+.topic:hover{
+    color: antiquewhite;
+    background: linear-gradient(45deg, #ffffff, #ff69b4); /* Gradient background */
+}
 
+@media (hover: hover) {
+    .topic:hover {
+        color: antiquewhite;
+        background: linear-gradient(45deg, #ffffff, #ff69b4); /* Gradient background */
+    }
+}
+
+@media (hover: none) {
+    /* Styles applied for touch devices or mobile */
+    .topic {
+        color: antiquewhite;
+        background: linear-gradient(45deg, #ffffff, #ff69b4); /* Gradient background */
+    }
+}
 @keyframes sparkle {
     0% {
         text-shadow: 
