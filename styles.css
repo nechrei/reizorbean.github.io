@@ -91,6 +91,138 @@ li{
 
 
 
+.bns{
+    color: #0ff;
+    margin: 3px;
+    display: flex;
+    justify-content: center;
+}
+
+
+
+
+
+
+
+
+.playonstart{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.cardcontainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh; /* Full viewport height */
+}
+
+.card {
+    background-color: rgba(255, 0, 0, 0.1); /* Light red background */
+    border: 2px solid rgba(255, 0, 0, 0.8); /* Neon border */
+    border-radius: 15px; /* More rounded corners */
+    padding: 20px;
+    margin: 15px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 
+                0 0 30px rgba(255, 0, 0, 0.6);
+    transition: 0.3s;
+    width: 80%; /* Responsive width */
+    max-width: 800px; /* Max width for larger screens */
+}
+
+.card h1 {
+    color: rgba(255, 0, 0, 1); /* Bright red text */
+    text-shadow: 0 0 10px rgba(255, 0, 0, 1), 
+                 0 0 20px rgba(255, 0, 0, 0.8);
+}
+
+.card p {
+    color: rgba(255, 255, 255, 0.9); /* White text */
+    text-shadow: 0 0 5px rgba(255, 255, 255, 1);
+}
+
+/* Grid layout for sections */
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    gap: 20px; /* Space between columns */
+    margin-top: 20px; /* Space above grid */
+}
+
+.section {
+    background-color: rgba(255, 0, 0, 0.2); /* Slightly darker background for sections */
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+}
+
+.section h2 {
+    color: rgba(255, 0, 0, 1); /* Bright red section titles */
+}
+
+.section p {
+    color: rgba(255, 255, 255, 0.9); /* White text for sections */
+}
+
+/* Hover effect */
+.card:hover {
+    box-shadow: 0 0 30px rgba(255, 0, 0, 1), 
+                0 0 40px rgba(255, 0, 0, 0.8);
+}
+
+
+.audio-player{
+    width: 600px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0px 0px 20px var(--neon-pink), 0px 0px 40px var(--neon-blue);
+}
+
+
+
+
+
+
+
+#videoContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+
+
+
+/* hpns */
+
+
 .hpns > *:hover {
     transform: scale(1.8) rotate(2deg); /* Slightly reduce scale and rotation */
     width: 110%;
@@ -113,10 +245,7 @@ a {
     cursor: pointer; /* Ensures the cursor changes to pointer on hover */
 }
 
-.bns{
-    color: #0ff;
-    margin: 3px;
-}
+
 .hpns{
     display: flex;
     flex-direction: column;
@@ -245,6 +374,29 @@ body {
     -moz-osx-font-smoothing: grayscale;
     height: 100vh; /* Ensure body takes full height */
 }
+
+hr {
+    border: none; /* Remove default border */
+    height: 2px; /* Increased thickness for a bolder line */
+    background: linear-gradient(90deg, rgba(255, 60, 158, 0.8), rgba(171, 212, 248, 0.8), rgba(255, 60, 158, 0.8)); /* Neon gradient color */
+    position: relative; /* For positioning the glow effect */
+    overflow: hidden; /* Contain the glow effect */
+    box-shadow: 0 0 15px rgba(255, 60, 158, 0.8), 0 0 30px rgba(171, 212, 248, 0.8); /* Neon glow effect */
+    animation: pulse 2s infinite; /* Pulsing animation */
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7; /* Slightly transparent */
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
 
 
 button{
