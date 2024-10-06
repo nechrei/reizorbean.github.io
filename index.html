@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Zeddychan is a public playground. We can both be anonymous and share our thoughts each day. We love horror, conspiracies and some memes.">
     <title>Zeddychan</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=8bit+Operator&display=swap" rel="stylesheet">
+
     <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
 
@@ -13,19 +16,117 @@
 </head>
 <body>
     <header>
-        <div>Zeddychan</div>
-        <div>Zeddychan is a public playground. We can both be anonymous and share our thoughts each day. We love horror, conspiracies and some memes.</div>
-        <div class="annPos">
-            <button title="announcement" class="announcement" id="announcement" onclick="goToAnn()">
-            </button>
-            <button title="close-announcement" class="close-announcement" id="close-announcement" onclick="closeAnn()">
-            X</button>
+        <h1 class="neon-title">Zeddychan</h1>
+
+        <div class='slider'>
+            <div class="edge"></div>
+            <ul class="slideContainer"></ul>
         </div>
+        
+        <script>
+            // Polyfill for requestAnimationFrame
+            window.requestAnimationFrame = (function(){
+                return window.requestAnimationFrame ||
+                       window.webkitRequestAnimationFrame ||
+                       window.mozRequestAnimationFrame ||
+                       function(callback){
+                           window.setTimeout(callback, 1000 / 60);
+                       };
+            })();
+        
+            // Sentence you want to split into letters
+            var sentence = "Zeddychan is a public playground. We can both be anonymous and share our thoughts each day. We love horror, conspiracies and some memes.";
+        
+            // Gap between letters (in pixels)
+            var letterGap = -7; // Default gap between letters
+            var spaceGap = 10; // Special gap for spaces
+            var endGap = 60; // Special gap for the end of the sentence
+            var speed = 0.15; // Speed of animation in seconds
+            var isAnimating = false; // Prevents multiple animations from triggering simultaneously
+
+            // Select the container
+            var slideContainer = document.querySelector('.slideContainer');
+        
+            // Split the sentence into individual letters
+            var letters = sentence.split('');
+        
+            // Generate each letter as a list item
+            letters.forEach(function(letter, index) {
+                var li = document.createElement('li');
+                li.classList.add('slideItem');
+                li.textContent = letter;
+        
+                // Apply specific gap for spacebar, end of sentence, and general gap for others
+                if (letter === ' ') {
+                    li.style.marginRight = spaceGap + 'px'; // Special gap for spaces
+                } else if (index === letters.length - 1) {
+                    li.style.marginRight = endGap + 'px'; // Special gap for end of sentence
+                } else {
+                    li.style.marginRight = letterGap + 'px'; // Apply the general gap
+                }
+        
+                slideContainer.appendChild(li);
+            });
+        
+        
+            function currencySlide() {
+                if (isAnimating) return; // Exit if an animation is already in progress
+                isAnimating = true;
+        
+                var slideItems = document.querySelectorAll('.slideItem');
+                var firstItemWidth = slideItems[0].offsetWidth + (
+                    slideItems[0].textContent === ' ' ? spaceGap : 
+                    (slideItems[0].textContent === letters[letters.length - 1] ? endGap : letterGap)
+                ); // Include gap based on letter or end of sentence
+        
+                // Set the container's width to fit all the items
+                var totalWidth = Array.from(slideItems).reduce(function(sum, item, index) {
+                    var gap = (item.textContent === ' ') ? spaceGap :
+                              (index === slideItems.length - 1) ? endGap : letterGap; // Adjust gap based on position and letter
+                    return sum + item.offsetWidth + gap;
+                }, 0);
+                slideContainer.style.width = totalWidth + 'px';
+        
+                // Start the sliding animation
+                slideContainer.style.transition = `transform ${speed}s linear`;
+                slideContainer.style.transform = `translateX(-${firstItemWidth}px)`;
+        
+                // Use a single event listener for transition end
+                slideContainer.addEventListener('transitionend', function handler() {
+                    // Move the first item to the end of the list
+                    slideContainer.appendChild(slideItems[0]);
+        
+                    // Reset the transition and transform position
+                    slideContainer.style.transition = 'none';
+                    slideContainer.style.transform = 'translateX(0)';
+        
+                    // Allow animation to happen again
+                    isAnimating = false; // Reset the flag
+                    slideContainer.removeEventListener('transitionend', handler); // Clean up event listener
+                    requestAnimationFrame(currencySlide); // Start the next cycle
+                }, { once: true }); // Ensure the event listener only fires once per transition
+            }
+        
+            currencySlide(); // Start the sliding effect
+        </script>
+        
+
+
+
+
+    </div>
+    <div class="annPos">
+        <button title="&#41;" class="announcement" id="announcement" onclick="goToAnn()">  
+        </button>
+        <button class="close-announcement" id="close-announcement" onclick="closeAnn()">
+        X</button>
+    </div>
     </header>
     <hr>
     <p class="bns">
-        Beans is and will forever be my one and only!
+            Beans is and will forever be my one and only!
     </p>
+    <hr>
     <h1 class="topic">
         Music Stash
     </h1>
@@ -67,15 +168,17 @@
         <div class="chat-container">
             <div id="chatbox" class="neon-chatbox">
                 <div class="chat-header">
-                    Public Lobby 
-                    <button class="minimize-button" onclick="toggleChatbox()">&#x25BC;</button>
+                    <button onclick="toggleChatbox()">Public Lobby</button>
                 </div>
                 <div class="messages" id="messages"></div>
                 <div id="statusMessage" class="status-message" style="color: red;">Loading messages...</div>
                 <div id="userInfo" class="user-info" style="color: rgb(81, 165, 229);"></div>
                 <input type="text" id="messageInput" class="message-input" placeholder="Type a message..." />
                 <button id="sendButton" class="send-button" onclick="sendMessage()">Send</button>
-                <button id="claimButton" class="claim-button" onclick="claimDisplayName()">display name options</button>
+                <div id="chatoptions">
+                    <button id="claimButton" class="claim-button" onclick="claimDisplayName()">display name options</button>
+                    <button class="minimize-button" onclick="toggleChatbox()">&#x25BC;</button>
+                </div>
                 <div id="claim" class="claim" style="color: rgba(36, 102, 255, 0.711);">
                     <div id="descLogin" class="desc-login" style="color: rgba(36, 102, 255, 0.711);">Claim display name with seamless login, register, name, pw change:</div>
                     <input type="text" id="displayNameInput" class="display-name-input" placeholder="Enter your display name..." />
@@ -181,7 +284,7 @@
                 announcementDiv.textContent = `${announcementData.title}: ${announcementData.message}`; // Update the announcement text
                 announcementDiv.style.display = 'block'; // Show the announcement
                 closeAnnouncementDiv.style.display = 'block';
-
+                document.getElementById('announcement').title = announcementLink;
                 console.log(announcementDiv.textContent);
 
             } else {

@@ -1,3 +1,94 @@
+.neon-title {
+    margin: 3px;
+    padding: 0;
+    font-family: 'Courier New', Courier, monospace; /* Retro font */
+    font-size: 11px; /* Keeping the font size */
+    color: #5efff7; /* Base neon color */
+    text-align: center;
+    text-transform: uppercase; /* Uppercase letters for that retro vibe */
+    text-shadow: 
+        0 0 5px #5efff7,    /* Subtle glow */
+        0 0 15px #5efff7,   /* Bright neon glow */
+        0 0 20px #00eaff,    /* Bright cyan glow */
+        0 0 25px #0883d4,    /* Deeper blue glow */
+        0 0 35px #00ccff,    /* Light blue for depth */
+        0 0 50px #ff27c2,    /* Vivid pink glow */
+        0 0 70px #ff33a3,    /* Soft pink with larger spread */
+        0 0 90px #ff4040,    /* Deep red for a more dramatic effect */
+        0 0 120px rgba(255, 0, 0, 0.6); /* Soft red glow for additional depth */
+}
+
+
+
+.slider {
+    width:100%;
+    overflow:hidden;
+    position:relative;
+    margin:0;
+    padding: 0;
+}
+
+.slideContainer {
+    border-bottom: 2px solid rgb(212, 110, 110);
+    border-top: 2px solid cyan;
+    display: flex; /* Ensure that the items are displayed in a row */
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    user-select: none;
+}
+
+.slideItem {
+    display: inline-block;
+    font-size: 12px;
+    padding: 6px;
+    white-space: nowrap;    
+    text-shadow: 2px 2px 4px rgb(217, 235, 244); /* Adjust the shadow properties as needed */
+    transition: margin 0.3s ease; /* Add transition for smoother effect */
+}
+.edge{
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    position:absolute;
+    height:100%;
+    display:block;
+}
+.edge:before{
+    content:'';
+    position:absolute;
+    left:0;
+    z-index: 1;
+    background:-webkit-linear-gradient(left,rgba(255, 69, 215, 0.656) 20%, rgba(93, 1, 1, 0) 100%);
+    width:55%;
+    height:100%;
+}
+.edge:after{
+    content:'';
+    position:absolute;
+    z-index: 1;
+    right: 0;
+    background:-webkit-linear-gradient(right, rgba(255, 69, 215, 0.656)  20%, rgba(93, 1, 1, 0) 100%);
+    width:55%;
+    height:100%;
+}
+ul{
+    background:-webkit-linear-gradient(rgb(0, 179, 255) 10%, rgba(0, 0, 0, 0.137) 100%);
+    overflow:hidden;
+    width:1000%;
+    margin:0;
+}
+li{
+    list-style:none;
+    display:inline-block;
+    padding:0 50px;
+}
+
+
+
+
+
 
 .hpns > *:hover {
     transform: scale(1.8) rotate(2deg); /* Slightly reduce scale and rotation */
@@ -137,15 +228,33 @@ a {
 .musicstashembed{
     margin: 10px;
 }
-
+div{
+    font-family: '8bit Operator', monospace;
+}
 body {
-    background-color: #222;
+    font-family: '8bit Operator', monospace;
+    background: linear-gradient(to right, 
+        rgba(255, 60, 158, 0.7) 0%,   /* Pink color on the left */
+        rgba(180, 3, 83, 0.83) 50%,         /* Middle transparent color */
+        rgba(255, 60, 158, 0.7) 100%  /* Pink color on the right */
+    );
     margin: 0;    
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    height: 100vh; /* Ensure body takes full height */
+}
+
+
+button{
+    font-family: '8bit Operator', monospace;
+}
+input{
+    font-family: '8bit Operator', monospace;
 }
 header{
     margin: 10px;
+    margin-left: 0;
+    margin-right: 0;
     display: flex;
     flex-direction: column;
     justify-content: start;
@@ -214,26 +323,23 @@ article{
     margin: 0;
 }
 
+
+
+
+
+
+
+
+/* chat box */
+
+
+
+
 .chat-container {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-}
-.claim-button{
-    background-color: rgba(52, 52, 240, 0.578);
-    font-size: 12px;
-    color: #f2f2f2ef;
-    border: none;
-    padding: 3px 10px;
-    margin: 2px;
-    border-radius: 5px ;
-    cursor: pointer;}
-.claim-button:hover {
-    background-color: rgb(36, 92, 212);
-}
-.claim {
-    display: none;
 }
 
 .neon-chatbox {
@@ -249,14 +355,25 @@ article{
     flex-direction: column;
     transition: height 0.3s ease;  
 }
+.chat-header button {
+    text-shadow:inherit;
+    background-color:inherit;
+    color: inherit;
+    width: 100%; /* Make button take full width */
+    height: 100%; /* Make button take full height */
+    border: none; /* Remove border */
+    background-color: transparent; /* Transparent background */
+    cursor: pointer; /* Pointer cursor for button */
+    font-size: inherit; /* Inherit font size from chat-header */
+}
 
 .chat-header {
-    background-color: #00f;
-    color: #fff;
     padding: 8px;
     text-align: center;
     font-size: 1.5em;
     text-shadow: 0 0 5px #fff, 0 0 10px #fff;
+    background-color: rgb(131, 131, 255);
+    color: #fff;
     user-select: none; 
 }
 
@@ -269,7 +386,7 @@ article{
 }
 
 .message {
-    background-color: #00f;
+    background-color:  rgb(131, 131, 255);
     color: #fff;
     padding: 11px;
     margin: 5px 0;
@@ -308,7 +425,7 @@ article{
     cursor: pointer;
 }
 .send-button {
-    background-color: #00f;
+    background-color: rgb(131, 131, 255);
     color: #fff;
     border: none;
     padding: 10px 15px;
@@ -336,12 +453,36 @@ article{
     padding-bottom: 1px;
     user-select: none; 
 }
+.claim-button{
+    flex: 1;  
+    background-color: rgba(52, 52, 240, 0.578);
+    font-size: 12px;
+    color: #f2f2f2ef;
+    border: none;
+    padding: 3px 10px;
+    margin: 2px;
+    border-radius: 5px ;
+    cursor: pointer;}
+.claim-button:hover {
+    background-color: rgb(36, 92, 212);
+}
+.claim {
+    display: none;
+}
+#chatoptions{
+    display: flex;
+    justify-content: space-between; /* Distribute space between items */
+    align-items: stretch;
+}
+
 .minimize-button{
-    background-color: rgba(61, 171, 255, 0.319);    
+    background-color: rgba(35, 48, 167, 0.372);    
     color: rgba(0, 0, 49, 0.86);
     border-radius: 3px;
     border: 0px;
-    cursor: pointer;}
+    cursor: pointer;
+    width: 25px;
+}
 .minimize-button:hover {
     background-color: rgb(36, 92, 212);
 }
@@ -361,6 +502,7 @@ article{
     background-color: #3498db00;
     color: white;
     display: flex;
+    z-index: 2;
     justify-content: center;
     align-items: center;
     border-radius: 8px;
