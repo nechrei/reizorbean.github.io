@@ -24,6 +24,7 @@
 
 
 
+
 .slider {
     width:100%;
     overflow:hidden;
@@ -38,6 +39,7 @@
     display: flex; /* Ensure that the items are displayed in a row */
     padding: 0;
     margin: 0;
+    overflow: hidden;
     list-style: none;
     user-select: none;
 }
@@ -94,13 +96,6 @@ li{
 
 
 
-.bns{
-    color: #0ff;
-    margin: 3px;
-    display: flex;
-    text-align: center;
-    justify-content: center;
-}
 
 
 
@@ -109,12 +104,8 @@ li{
 
 
 
-.playonstart{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
+
+
 
 
 
@@ -159,7 +150,7 @@ li{
     color: rgb(188, 237, 255); /* Bright red text */
     text-shadow: 0 0 33px rgb(84, 255, 252), 
                  0 0 10px #00ffbffd;
-    margin-bottom: 5px;
+    margin-bottom: 3px;
     user-select: none;
 }
 
@@ -167,10 +158,36 @@ li{
     color: rgba(255, 255, 255, 0.9); /* White text */
     text-shadow: 0 3 22px rgb(0, 255, 187);
 }
+#note{
+    font-family:Verdana, Geneva, Tahoma, sans-serif;    
+    margin: 0;
+    font-size: 17px;
+    letter-spacing: 3px;
+    word-spacing: 3px;
+    margin-bottom: 4px;
+    padding: 0;
+    font-weight:bolder;
+    opacity: 20%;
+    text-shadow: 3px 3px 11px #7ecbff; /* Example shadow */
+    transition: opacity 0.22s;
+}
 .card .section:hover #note {
     opacity: 90%;
     user-select: none;
+    color: #a1ffffdb;
 }
+
+.gotothing{
+    transition: font-size 0.2s, text-shadow 0.34s;
+    text-shadow: 2px 2px 2px #8ad0ff;
+
+}.gotothing:hover{
+    font-size: 19px;
+    text-shadow: 3px 3px 6px #8ad0ff,
+    3px 3px 6px #ffe48a;
+
+}
+
 /* Grid layout for sections */
 .grid {
     display: grid;
@@ -218,7 +235,12 @@ li{
 
 
 
-
+.playonstart{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
  /* Neon Retro Colors */
  :root {
@@ -299,14 +321,6 @@ li{
 #player:hover {
     transform: scale(1.05);
     box-shadow: 0px 0px 30px var(--neon-pink), 0px 0px 60px var(--neon-cyan);
-}
-#note{
-    margin: 0;
-    padding: 0;
-    font-weight:bolder;
-    opacity: 20%;
-    text-shadow: 3px 3px 11px #3498db; /* Example shadow */
-    transition: opacity 0.22s;
 }
 .audio-player{
     max-width: 720px;
@@ -593,6 +607,7 @@ article{
     top: 54px;
 }
 .announcement {
+    opacity: 75%;
     color: #fffcfc;
     background-color: #111;
     padding: 10px;
@@ -867,4 +882,12 @@ article{
     background-color: rgb(74, 255, 204); /* Color of the cursor */
     animation: blink-caret 0.75s step-end infinite; /* Blinking effect */
     margin-left: 2px; /* Space between text and cursor */
+}
+
+.bns{
+    color: #0ff;
+    margin: 3px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
 }

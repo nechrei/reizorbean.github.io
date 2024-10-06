@@ -1,4 +1,13 @@
 {
+    "hpns": [
+        { "href": null, "text": "My one and only Beans" },
+        { "href": "https://www.twitch.tv/dantes", "text": "https://www.twitch.tv/dantes" },
+        { "href": "https://www.youtube.com/@DoaenelYT", "text": "https://www.youtube.com/@DoaenelYT" },
+        { "href": "https://www.twitch.tv/ishowspeed", "text": "https://www.twitch.tv/ishowspeed" },
+        { "href": "https://www.youtube.com/@IShowSpeed", "text": "https://www.youtube.com/@IShowSpeed" },
+        { "href": "https://plaza.one/", "text": "https://plaza.one/" }
+    ],
+
     "firstvideotoplay":"pR0HQUSnGTA",
 
     "music": [

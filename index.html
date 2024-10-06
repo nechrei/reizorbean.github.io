@@ -40,7 +40,18 @@
     // const recipes = await data();
     // })();
     </script>
-    <header>
+
+
+
+
+
+
+
+
+
+<!-- the header -->
+
+<header>
         <h1 class="neon-title">Zeddychan</h1>
 
         <div class='slider'>
@@ -94,7 +105,7 @@
             });
         
         
-            function currencySlide() {
+            function textSlide() {
                 if (isAnimating) return; // Exit if an animation is already in progress
                 isAnimating = true;
         
@@ -128,30 +139,67 @@
                     // Allow animation to happen again
                     isAnimating = false; // Reset the flag
                     slideContainer.removeEventListener('transitionend', handler); // Clean up event listener
-                    requestAnimationFrame(currencySlide); // Start the next cycle
+                    requestAnimationFrame(textSlide); // Start the next cycle
                 }, { once: true }); // Ensure the event listener only fires once per transition
             }
         
-            currencySlide(); // Start the sliding effect
+                textSlide(); // Start the sliding effect
         </script>
-        
-
-
-
-
     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- the announcement -->
+
     <div class="annPos">
         <button title="&#41;" class="announcement" id="announcement" onclick="goToAnn()">  
         </button>
         <button class="close-announcement" id="close-announcement" onclick="closeAnn()">
         X</button>
     </div>
-    </header>
-    <hr>
+</header>
+
+
+<hr>
     <p class="bns">
-            WELCOME NERDS
+        WELCOME NERDS
     </p>
-    <hr>
+<hr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- the card -->
+
 
     <div class="cardcontainer">
         <div class="card">
@@ -159,14 +207,17 @@
             <div class="grid">
                 <div class="section left">
                     <h2>Stuff</h2>
-                    <p id="note">cool stuff</p>
-                    <p>Music Stash</p>
-                    <p>Sources Of Happiness</p>
+                    <p id="note">yes, cool stuff</p>
+                    <p><a class="gotothing" href="#musicstash" style="text-decoration: none; cursor: pointer;">
+                     Music Stash</a></p>
+                    <p><a  class="gotothing" href="#srchpns" style="text-decoration: none; cursor: pointer;">
+                        Sources Of Happiness</a></p>
                 </div>
                 <div class="section right">
                     <h2>More stuff</h2>
-                    <p id="note">cool vibes</p>
-                    <p>Sweetcore</p>
+                    <p id="note">cool cool vibes</p>
+                    <p><a  class="gotothing" href="#" style="text-decoration: none; cursor: pointer;">
+                       Sweetcore</a></p>
                     <p>...</p>
                 </div>
             </div>
@@ -186,11 +237,23 @@
         <div id="player"></div>
     </div>
     
-<style>
-   
-</style>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- the first video player -->
 
 
 <script>
@@ -290,9 +353,6 @@
     document.head.appendChild(tag);
     })();
 
-   
-
-
 </script>
 
     
@@ -302,41 +362,79 @@
 
 
 
-    <h1 class="topic">
-        Music Stash
-    </h1>
-    <div id="videoContainer"></div>
 
-    <h1 class="topic">
-       Sources of Happiness
-    </h1>
-    <div class="hpns" >
-        <p>My one and only Beans</p>
-        <!-- <p><a 
-            href="x" 
-            target="_blank" 
-            rel="noopener noreferrer">x</a></p> -->
-        <p><a 
-            href="https://www.twitch.tv/dantes" 
-            target="_blank" 
-            rel="noopener noreferrer">https://www.twitch.tv/dantes</a></p>
-        <p><a 
-            href="https://www.youtube.com/@DoaenelYT" 
-            target="_blank" 
-            rel="noopener noreferrer">https://www.youtube.com/@DoaenelYT</a></p>
-        <p><a 
-            href="https://www.twitch.tv/ishowspeed" 
-            target="_blank" 
-            rel="noopener noreferrer">https://www.twitch.tv/ishowspeed</a></p>
-        <p><a 
-            href="https://www.youtube.com/@IShowSpeed" 
-            target="_blank" 
-            rel="noopener noreferrer">https://www.youtube.com/@IShowSpeed</a></p>
-        <p><a 
-            href="https://plaza.one/" 
-            target="_blank" 
-            rel="noopener noreferrer">https://plaza.one/</a></p>
-    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- the topics -->
+
+
+<h1 class="topic" id="musicstash">
+    Music Stash
+</h1>
+<div id="videoContainer"></div>
+
+<h1 class="topic" id="srchpns">
+    Sources of Happiness
+</h1>
+
+<div id="p-tags-container" class="hpns"></div>
+<script>
+    async function generatePTags() {
+        // Fetch the data from your source
+        const recipes = await data(); // Assume this fetches your JSON data
+        const hpns = recipes.hpns; // Access the hpns key (now an array)
+
+        // Get a reference to the container where you want to append the <p> tags
+        const container = document.getElementById('p-tags-container');
+
+        // Loop through the hpns array and create <p> elements
+        hpns.forEach(item => {
+            // Create a new <p> element
+            const pTag = document.createElement('p');
+
+            // Check if item has href and text properties
+            if (item.href && item.text) {
+                // Create the <a> tag
+                const aTag = document.createElement('a');
+                aTag.href = item.href; // Set the href attribute
+                aTag.target = '_blank'; // Open in a new tab
+                aTag.rel = 'noopener noreferrer'; // Security best practices
+                aTag.textContent = item.text; // Set the link text
+
+                // Append the <a> tag to the <p> tag
+                pTag.appendChild(aTag);
+            } else {
+                // If there is no href, just use the text as plain <p>
+                pTag.textContent = item.text;
+            }
+
+            // Append the <p> tag to the container
+            container.appendChild(pTag);
+        });
+    }
+
+    // Call the function to generate <p> tags
+    generatePTags();
+</script>
+
+
+
+
+
+
+
+
+
 
 
 
@@ -380,706 +478,722 @@
 
 
 
+<script type="module">
+        // Firebase imports
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+    import { getDatabase, ref as dbRef, onValue, push, set, update, get } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
+    import { getStorage,  ref as storageRef,  listAll, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-storage.js";
+    import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
 
+    document.addEventListener("DOMContentLoaded", function() {
+        if (window.location.href.includes("zeddychan.netlify.app") || window.location.href.includes("127.0.0.1:5500")) {
+            document.body.classList.remove('hide');
 
+    // Array of YouTube links
+    let musiclist = [];
+    // Function to create iframes from the YouTube links
+    function embedYouTubeVideos(videoList) {
+        const container = document.getElementById("videoContainer"); // Get the container div
+        
+        videoList.forEach(link => {
+            // Extract video ID from the YouTube link
+            const videoId = link.split("v=")[1];
+            const ampersandPosition = videoId.indexOf("&");
+            if (ampersandPosition !== -1) {
+                videoId = videoId.substring(0, ampersandPosition);
+            }
 
+            // Create the iframe element
+            const iframe = document.createElement("iframe");
+            iframe.className = "musicstashembed";
+            iframe.width = "260";
+            iframe.height = "147";
+            iframe.src = `https://www.youtube.com/embed/${videoId}`;
+            iframe.title = "YouTube video player";
+            iframe.frameBorder = "0";
+            iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+            iframe.allowFullscreen = true;
 
-    <script type="module">
-          // Firebase imports
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
-        import { getDatabase, ref as dbRef, onValue, push, set, update, get } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
-        import { getStorage,  ref as storageRef,  listAll, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-storage.js";
-        import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+            // Append the iframe to the container
+            container.appendChild(iframe);
+        });
+    }
 
-        document.addEventListener("DOMContentLoaded", function() {
-            if (window.location.href === "https://zeddychan.netlify.app/" || window.location.href === "http://127.0.0.1:5500/index.html") {
-                document.body.classList.remove('hide');
+        // Fetch the music list from the JSON file
+        (async () => {
+            const recipes = await data();
+                musiclist = recipes.music; // Assuming your JSON structure has a "music" key
+                console.log(musiclist); // This will log the music list to the console
 
-        // Array of YouTube links
-        let musiclist = [];
-        // Function to create iframes from the YouTube links
-        function embedYouTubeVideos(videoList) {
-            const container = document.getElementById("videoContainer"); // Get the container div
+        // Call the function to embed videos
+        embedYouTubeVideos(musiclist);
+    })();   
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyCcV2wJ2tvOYEH_tW1sIi3YXOURy6h7VTo",
+        authDomain: "zeddychan.firebaseapp.com",
+        databaseURL: "https://zeddychan-default-rtdb.firebaseio.com",
+        projectId: "zeddychan",
+        storageBucket: "zeddychan.appspot.com",
+        messagingSenderId: "556479718409",
+        appId: "1:556479718409:web:c6bfd066216922f35484d8",
+        measurementId: "G-8W0CHH4G68"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const auth = getAuth(app);
+    const storage = getStorage();
+    const imagesRef = storageRef(storage, 'images');
+
+    const sendButton = document.getElementById("sendButton");
+    const claimButton = document.getElementById("claimButton");
+    const emailInput = document.getElementById("emailInput");
+    const passwordInput = document.getElementById("passwordInput");
+    const messageInput = document.getElementById("messageInput");
+    const chatbox = document.getElementById("chatbox");
+    const openChatButton = document.getElementById("openChatButton");
+    const statusMessageDiv = document.getElementById("statusMessage");
+    const userInfoDiv = document.getElementById("userInfo");
+    const signOutButton = document.getElementById("signOutButton");
+    const announcementDiv = document.getElementById('announcement');
+    const closeAnnouncementDiv = document.getElementById('close-announcement');
+
+    
+    // Reference to publicAnnouncement in your database
+    const announcementRef = dbRef(database, 'publicAnnouncement');
+    let announcementLink = "";
+
+        // Listen for value changes using onValue
+        onValue(announcementRef, (snapshot) => {
+        const announcementData = snapshot.val();
+        announcementLink = announcementData.link;
+        if (announcementData && announcementData.message) {
+            announcementDiv.textContent = `${announcementData.title}: ${announcementData.message}`; // Update the announcement text
+            announcementDiv.style.display = 'block'; // Show the announcement
+            closeAnnouncementDiv.style.display = 'block';
+            document.getElementById('announcement').title = announcementLink;
+            console.log(announcementDiv.textContent);
+
+        } else {
+            announcementDiv.style.display = 'none'; // Hide if no announcement
+            console.log("No ann");
+
+        }
+    });
+    window.closeAnn = function() {
+        announcementDiv.style.display = 'none';
+        closeAnnouncementDiv.style.display = 'none';
+    }
+    window.goToAnn = function() {
+        if (announcementLink === ""){
+        } else{
+            const userConfirmed = confirm(`Are you sure you want to go to ${announcementLink}?`);
             
-            videoList.forEach(link => {
-                // Extract video ID from the YouTube link
-                const videoId = link.split("v=")[1];
-                const ampersandPosition = videoId.indexOf("&");
-                if (ampersandPosition !== -1) {
-                    videoId = videoId.substring(0, ampersandPosition);
-                }
-
-                // Create the iframe element
-                const iframe = document.createElement("iframe");
-                iframe.className = "musicstashembed";
-                iframe.width = "260";
-                iframe.height = "147";
-                iframe.src = `https://www.youtube.com/embed/${videoId}`;
-                iframe.title = "YouTube video player";
-                iframe.frameBorder = "0";
-                iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
-                iframe.allowFullscreen = true;
-
-                // Append the iframe to the container
-                container.appendChild(iframe);
-            });
-        }
-
-            // Fetch the music list from the JSON file
-            (async () => {
-                const recipes = await data();
-                    musiclist = recipes.music; // Assuming your JSON structure has a "music" key
-                    console.log(musiclist); // This will log the music list to the console
-
-            // Call the function to embed videos
-            embedYouTubeVideos(musiclist);
-        })();   
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyCcV2wJ2tvOYEH_tW1sIi3YXOURy6h7VTo",
-            authDomain: "zeddychan.firebaseapp.com",
-            databaseURL: "https://zeddychan-default-rtdb.firebaseio.com",
-            projectId: "zeddychan",
-            storageBucket: "zeddychan.appspot.com",
-            messagingSenderId: "556479718409",
-            appId: "1:556479718409:web:c6bfd066216922f35484d8",
-            measurementId: "G-8W0CHH4G68"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const database = getDatabase(app);
-        const auth = getAuth(app);
-        const storage = getStorage();
-        const imagesRef = storageRef(storage, 'images');
-
-        const sendButton = document.getElementById("sendButton");
-        const claimButton = document.getElementById("claimButton");
-        const emailInput = document.getElementById("emailInput");
-        const passwordInput = document.getElementById("passwordInput");
-        const messageInput = document.getElementById("messageInput");
-        const chatbox = document.getElementById("chatbox");
-        const openChatButton = document.getElementById("openChatButton");
-        const statusMessageDiv = document.getElementById("statusMessage");
-        const userInfoDiv = document.getElementById("userInfo");
-        const signOutButton = document.getElementById("signOutButton");
-        const announcementDiv = document.getElementById('announcement');
-        const closeAnnouncementDiv = document.getElementById('close-announcement');
-
-        
-        // Reference to publicAnnouncement in your database
-        const announcementRef = dbRef(database, 'publicAnnouncement');
-        let announcementLink = "";
-
-         // Listen for value changes using onValue
-         onValue(announcementRef, (snapshot) => {
-            const announcementData = snapshot.val();
-            announcementLink = announcementData.link;
-            if (announcementData && announcementData.message) {
-                announcementDiv.textContent = `${announcementData.title}: ${announcementData.message}`; // Update the announcement text
-                announcementDiv.style.display = 'block'; // Show the announcement
-                closeAnnouncementDiv.style.display = 'block';
-                document.getElementById('announcement').title = announcementLink;
-                console.log(announcementDiv.textContent);
-
-            } else {
-                announcementDiv.style.display = 'none'; // Hide if no announcement
-                console.log("No ann");
-
-            }
-        });
-        window.closeAnn = function() {
-            announcementDiv.style.display = 'none';
-            closeAnnouncementDiv.style.display = 'none';
-        }
-        window.goToAnn = function() {
-            if (announcementLink === ""){
-            } else{
-                const userConfirmed = confirm(`Are you sure you want to go to ${announcementLink}?`);
-                
-                // If the user confirms, navigate to the link
-                if (userConfirmed) {
-                    window.open(announcementLink, '_blank');
-                }
+            // If the user confirms, navigate to the link
+            if (userConfirmed) {
+                window.open(announcementLink, '_blank');
             }
         }
-        
-        onAuthStateChanged(auth, (user) => {
-            checkUser(user);
-        });
-        function checkUser() {
-            // CHECK CURRENT USER
-            const user = auth.currentUser;
-
-            if (user) {
-                statusMessageDiv.textContent = "Hello, human.";
-
-                const userEmail = user.email;
-                const userRef = dbRef(database, `users/${auth.currentUser.uid}`);
-
-                // Fetch display name from the database
-                onValue(userRef, (snapshot) => {
-                    const userData = snapshot.val();
-                    const displayName = userData ? userData.displayName || 'Anonymous' : 'Anonymous';
-
-                    updateUIForLoggedInUser(displayName); // Use the actual displayName here
-                    signOutButton.style.display = "block";
-                });
-            }
-        }
-        userInfoDiv.textContent = "Anonymous";
-        //signOutButton.style.display = "block";
-        function loadMessages() {
-            
-            statusMessageDiv.textContent = "Loading messages...";
-            setTimeout(() => {
-            const messagesRef = dbRef(database, 'publicChatRooms/defaultRoom/messages');
-            onValue(messagesRef, (snapshot) => {
-                chatbox.style.display = 'flex' ;
-                openChatButton.style.display ='none';
-
-                const messages = snapshot.val();
-                const messagesDiv = document.getElementById("messages");
-                messagesDiv.innerHTML = '';
-
-                for (const key in messages) {
-                    const message = messages[key];
-                    const messageElement = document.createElement("div");
-                    messageElement.className = "message";
-                    messageElement.textContent = `${message.name || 'Anonymous'}: ${message.text} (sent at ${new Date().toLocaleTimeString()} )`;
-                    messagesDiv.appendChild(messageElement);
-                }
-                messagesDiv.scrollTop = messagesDiv.scrollHeight;
-                sendButton.disabled = false;
-            }, (error) => {
-                console.error("Error reading data:", error);
-                statusMessageDiv.textContent = "Maintenance! Come back tomorrow or later.";
-                sendButton.disabled = true;
-            });
-            statusMessageDiv.textContent = "";}, 310);
-        }
-        sendButton.disabled = true;
-
-        loadMessages();
-        let isSendingMessage = false;
-        let isBusySending = false;
-
-        let existingDisplayNames = [];
-
-        const publicDisplayNamesRef = dbRef(database,'publicDisplayNames');
-
-        onValue(publicDisplayNamesRef, (snapshot) => {
-        const allDisplayNames = snapshot.val();
-        
-        // Extract display names from the data
-        existingDisplayNames = Object.values(allDisplayNames || {}).map(user => user.displayName);
-        
-            // Log all display names
-            //console.log("All Public Display Names:", existingDisplayNames);
-        }, (error) => {
-            console.error("Error fetching public display names:", error);
-        });
-
-        let openedClaimBox = false;
-
-        window.claimDisplayName = function() {
-            if (!openedClaimBox){
-                // Display a confirmation dialog
-                const userConfirmed = confirm("You will need to claim your display name using an email address and a password of your choice. Please create a random password that you do not use elsewhere, and reserve it solely for this page. I can view your email address but will not have access to it.");
-
-                // If the user clicks Cancel, return early
-                if (!userConfirmed) {
-                    return;
-                }
-            }
-
-            const claimDiv = document.getElementById('claim');
-            if (claimDiv.style.display === "none" || claimDiv.style.display === "") {
-                openedClaimBox = true;
-                claimDiv.style.display = "contents"; // Show the contents
-            } else {
-                openedClaimBox = false;
-                claimDiv.style.display = "none"; // Hide the contents
-            }
-        }
-
-        // ---------------------------------------------------------SENDING A MESSAGE
-        window.sendMessage = function() {
-
-        if (isSendingMessage) return;
-        isSendingMessage = true;
-
-        console.log("sendMessage called");
-        sendButton.disabled = true;
-        statusMessageDiv.textContent = "Loading...";
-
-        setTimeout(() => {
-        const messageText = messageInput.value.trim();
-        const userEmail = emailInput.value.trim();
-        const userPassword = passwordInput.value.trim();
-
-        if (messageText === "") {
-            statusMessageDiv.textContent = "Input is required.";
-            sendButton.disabled = false;
-            return;
-        }
-
-        // Get the current user
+    }
+    
+    onAuthStateChanged(auth, (user) => {
+        checkUser(user);
+    });
+    function checkUser() {
+        // CHECK CURRENT USER
         const user = auth.currentUser;
 
         if (user) {
-            console.log("Sending with user");
+            statusMessageDiv.textContent = "Hello, human.";
 
             const userEmail = user.email;
             const userRef = dbRef(database, `users/${auth.currentUser.uid}`);
-            if (displayNameInput.value !== "") {
-                if (existingDisplayNames.includes(displayName)) {
-                    console.log("ALREADY TAKEN");
-                    statusMessageDiv.textContent = "Display name already taken. Please choose another.";
-                    sendButton.disabled = false;
-                    return; // Return false if the name is taken
-                }
-                saveDisplayName(userEmail, displayNameInput.value.trim());
-            }
+
             // Fetch display name from the database
-            get(userRef).then((snapshot) => {
-                if (isBusySending) return;
-                isBusySending = true;
-
+            onValue(userRef, (snapshot) => {
                 const userData = snapshot.val();
-                const displayName = userData.displayName || 'Anonymous';
+                const displayName = userData ? userData.displayName || 'Anonymous' : 'Anonymous';
 
-                const messageData = {
-                    name: displayName,
-                    text: messageText,
-                    timestamp: Date.now(),
-                    ownerId: auth.currentUser.uid
-                };
-
-                push(dbRef(database, 'publicChatRooms/defaultRoom/messages'), messageData)
-                    .then(() => {
-                        updateUIForLoggedInUser(displayName);
-                        messageInput.value = "";
-                        statusMessageDiv.textContent = `Message sent. ${new Date(Date.now()).toLocaleTimeString()}`;
-                        passwordInput.value = ""; // Clear password
-                        displayNameInput.value = "";
-                    })
-                    .catch((error) => {
-                        console.error("Error writing data:", error);
-                        statusMessageDiv.textContent = "Maintenance! Come back tomorrow or later.";
-                    });
+                updateUIForLoggedInUser(displayName); // Use the actual displayName here
+                signOutButton.style.display = "block";
             });
-        } 
-        else {
-
-
-        // Check if email is provided
-        if (userEmail === "") {
-                // Send as anonymous
-                const messageData = {
-                    name: "Anonymous",
-                    text: messageText,
-                    timestamp: Date.now(),
-                    ownerId: "anon"
-                };
-                push(dbRef(database, 'publicChatRooms/defaultRoom/messages'), messageData)
-                    .then(() => {
-                        console.log("anonymous push called");
-                        messageInput.value = "";
-                        statusMessageDiv.textContent = "Message sent as Anonymous.";
-                        userInfo.textContent = "Anonymous";
-                        sendButton.disabled = false;
-                    })
-                    .catch((error) => {
-                        console.error("Error writing data:", error);
-                        statusMessageDiv.textContent = "Maintenance! Come back tomorrow or later.";
-                        sendButton.disabled = true;
-                    });
-            } else {
-                    // Attempt to login/register
-                    signInWithEmailAndPassword(auth, userEmail, userPassword)
-                        .then(() => {
-                            sendButton.disabled = true;
-                            if (displayNameInput.value !== "") {
-                                if (existingDisplayNames.includes(displayNameInput.value)) {
-                                    console.log("ALREADY TAKEN");
-                                    statusMessageDiv.textContent = "Display name already taken. Please choose another.";
-                                    sendButton.disabled = false;
-                                    return; // Return false if the name is taken
-                                }
-                                saveDisplayName(userEmail, displayNameInput.value.trim());
-                            }
-                            // Fetch the display name from the database
-                            const userRef = dbRef(database, `users/${auth.currentUser.uid}`);
-                            get(userRef).then((snapshot) => {
-                                if (isBusySending) return;
-                                 isBusySending = true;
-
-                                const userData = snapshot.val();
-                                const displayName = userData.displayName || 'Error loading name';
-
-                                const messageData = {
-                                    name: displayName, // Use display name from database
-                                    text: messageText,
-                                    timestamp: Date.now(),
-                                    ownerId: auth.currentUser.uid
-                                };
-                                
-                                push(dbRef(database, 'publicChatRooms/defaultRoom/messages'), messageData)
-                                .then(() => {
-                                    console.log("signed in sent message called");
-                                    statusMessageDiv.textContent = "";
-                                    
-                                    messageInput.value = "";
-                                    passwordInput.value = ""; // Clear password
-                                    updateUIForLoggedInUser(displayName);
-                                    displayNameInput.value = "";
-                                    
-                                    sendButton.disabled = false;
-                                    
-                                })
-                                .catch((error) => {
-                                    console.error("Error writing data:", error);
-                                    statusMessageDiv.textContent = "Maintenance! Come back tomorrow or later.";
-                                    sendButton.disabled = true;
-                                });  
-                            }).catch((error) => {
-                                console.error('Error fetching user data on sign in!!:', error);
-                                statusMessageDiv.textContent = "Error";
-                            });
-                        })
-                        .catch((error) => {
-                            sendButton.disabled = true;
-
-                            if (error.code === 'auth/user-not-found') {
-                                // Not registered, attempt to register
-                                let displayName = displayNameInput.value.trim();
-                                displayName = displayName === "" ? generateDisplayNameWithToken() : displayName;
-                                if (existingDisplayNames.includes(displayName)) {
-                                    console.log("ALREADY TAKEN");
-                                    statusMessageDiv.textContent = "Display name already taken. Please choose another.";
-                                    sendButton.disabled = false;
-                                    return; // Return false if the name is taken
-                                }
-                                console.log("Sending with user2");
-                                createUserWithEmailAndPassword(auth, userEmail, userPassword)
-                                    .then(() => {
-                                        if (!saveDisplayName(userEmail, displayName)){
-                                            console.log("FAILED DISPLAY NAME");
-                                            statusMessageDiv.textContent =  "Failed.";
-                                        }
-                                        const messageData = {
-                                            text: messageText,
-                                            name: displayName,
-                                            timestamp: Date.now(),
-                                            ownerId: auth.currentUser.uid
-                                        };
-
-                                        push(dbRef(database, 'publicChatRooms/defaultRoom/messages'), messageData)
-                                            .then(() => {
-                                                statusMessageDiv.textContent = "";
-                                                console.log("registration 01 push called");
-                                                messageInput.value = "";
-                                                passwordInput.value = ""; // Clear password
-                                                updateUIForNewRegisteredInUser(displayName);
-                                                sendButton.disabled = false;
-                                            })
-                                            .catch((error) => {
-                                                console.error("Error writing data:", error);
-                                                statusMessageDiv.textContent = "Maintenance! Come back tomorrow or later.";
-                                                sendButton.disabled = true;
-                                            });
-                                    })
-                                    .catch((error) => {
-                                        statusMessageDiv.textContent = error.message;
-                                    });
-                                
-                            } else if (error.code === 'auth/invalid-credential') {
-                                console.log("Sending with user3");
-
-                                let displayName = displayNameInput.value.trim();
-                                displayName = displayName === "" ? generateDisplayNameWithToken() : displayName;
-                                if (existingDisplayNames.includes(displayName)) {
-                                    console.log("ALREADY TAKEN");
-                                    statusMessageDiv.textContent = "Display name already taken. Please choose another.";
-                                    sendButton.disabled = false;
-                                    return; // Return false if the name is taken
-                                }
-                                    createUserWithEmailAndPassword(auth, userEmail, userPassword)
-                                    .then(() => {
-                                         if (!saveDisplayName(userEmail, displayName)){
-                                            console.log("FAILED DISPLAY NAME");
-                                            statusMessageDiv.textContent =  "Failed.";
-                                        }
-                                        const messageData = {
-                                            text: messageText,
-                                            name: displayName,
-                                            timestamp: Date.now(),
-                                            ownerId: auth.currentUser.uid
-                                        };
-
-                                        push(dbRef(database, 'publicChatRooms/defaultRoom/messages'), messageData)
-                                            .then(() => {
-                                                statusMessageDiv.textContent = "";
-                                                console.log("registration 02 push called");
-                                                messageInput.value = "";
-                                                passwordInput.value = ""; // Clear password
-                                                updateUIForNewRegisteredInUser(displayName);
-                                                sendButton.disabled = false;
-
-                                            })
-                                            .catch((error) => {
-                                                console.error("Error writing data:", error);
-                                                statusMessageDiv.textContent = "Maintenance! Come back tomorrow or later.";
-                                                sendButton.disabled = true;
-                                            });
-                                    })
-                                    .catch((error) => {
-                                        statusMessageDiv.textContent = "Something went wrong. Please try it again or nech an696 9 at gmaildotcom for support. or make sure your password is correct.";
-                                    });
-                               
-                            } else if (error.code === 'auth/missing-password') {
-                                statusMessageDiv.textContent =  "Enter password.";
-                            } else {
-                                // Handle other errors
-                                statusMessageDiv.textContent = "Too many attempts or something went wrong. Please try it again later or nech an696 9 at gmaildotcom for support. - or make sure your password is correct.";
-                            }
-                        });
-                }
-            }
-            isSendingMessage = false;
-            isBusySending = false;
-
-            }, 1250);
-
-            isSendingMessage = false;
-            isBusySending = false;
         }
-        let isBusyUpdatingName = false;
+    }
+    userInfoDiv.textContent = "Anonymous";
+    //signOutButton.style.display = "block";
+    function loadMessages() {
+        
+        statusMessageDiv.textContent = "Loading messages...";
+        setTimeout(() => {
+        const messagesRef = dbRef(database, 'publicChatRooms/defaultRoom/messages');
+        onValue(messagesRef, (snapshot) => {
+            chatbox.style.display = 'flex' ;
+            openChatButton.style.display ='none';
 
+            const messages = snapshot.val();
+            const messagesDiv = document.getElementById("messages");
+            messagesDiv.innerHTML = '';
 
-        async function saveDisplayName(userEmail, displayName) {
-            if (isBusyUpdatingName) return false; // Return false if already busy
-            
-            isBusyUpdatingName = true;
+            for (const key in messages) {
+                const message = messages[key];
+                const messageElement = document.createElement("div");
+                messageElement.className = "message";
+                messageElement.textContent = `${message.name || 'Anonymous'}: ${message.text} (sent at ${new Date().toLocaleTimeString()} )`;
+                messagesDiv.appendChild(messageElement);
+            }
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            sendButton.disabled = false;
+        }, (error) => {
+            console.error("Error reading data:", error);
+            statusMessageDiv.textContent = "Maintenance! Come back tomorrow or later.";
+            sendButton.disabled = true;
+        });
+        statusMessageDiv.textContent = "";}, 310);
+    }
+    sendButton.disabled = true;
 
+    loadMessages();
+    let isSendingMessage = false;
+    let isBusySending = false;
+
+    let existingDisplayNames = [];
+
+    const publicDisplayNamesRef = dbRef(database,'publicDisplayNames');
+
+    onValue(publicDisplayNamesRef, (snapshot) => {
+    const allDisplayNames = snapshot.val();
+    
+    // Extract display names from the data
+    existingDisplayNames = Object.values(allDisplayNames || {}).map(user => user.displayName);
+    
+        // Log all display names
+        //console.log("All Public Display Names:", existingDisplayNames);
+    }, (error) => {
+        console.error("Error fetching public display names:", error);
+    });
+
+    let openedClaimBox = false;
+
+    window.claimDisplayName = function() {
+        if (!openedClaimBox){
+            // Display a confirmation dialog
+            const userConfirmed = confirm("You will need to claim your display name using an email address and a password of your choice. Please create a random password that you do not use elsewhere, and reserve it solely for this page. I can view your email address but will not have access to it.");
+
+            // If the user clicks Cancel, return early
+            if (!userConfirmed) {
+                return;
+            }
+        }
+
+        const claimDiv = document.getElementById('claim');
+        if (claimDiv.style.display === "none" || claimDiv.style.display === "") {
+            openedClaimBox = true;
+            claimDiv.style.display = "contents"; // Show the contents
+        } else {
+            openedClaimBox = false;
+            claimDiv.style.display = "none"; // Hide the contents
+        }
+    }
+
+    // ---------------------------------------------------------SENDING A MESSAGE------------------------------------------
+    // ---------------------------------------------------------SENDING A MESSAGE------------------------------------------
+    // ---------------------------------------------------------SENDING A MESSAGE------------------------------------------
+    window.sendMessage = function() {
+
+    if (isSendingMessage) return;
+    isSendingMessage = true;
+
+    console.log("sendMessage called");
+    sendButton.disabled = true;
+    statusMessageDiv.textContent = "Loading...";
+
+    setTimeout(() => {
+    const messageText = messageInput.value.trim();
+    const userEmail = emailInput.value.trim();
+    const userPassword = passwordInput.value.trim();
+
+    if (messageText === "") {
+        statusMessageDiv.textContent = "Input is required.";
+        sendButton.disabled = false;
+        return;
+    }
+
+    // Get the current user
+    const user = auth.currentUser;
+
+    if (user) {
+        console.log("Sending with user");
+
+        const userEmail = user.email;
+        const userRef = dbRef(database, `users/${auth.currentUser.uid}`);
+        if (displayNameInput.value !== "") {
             if (existingDisplayNames.includes(displayName)) {
                 console.log("ALREADY TAKEN");
                 statusMessageDiv.textContent = "Display name already taken. Please choose another.";
                 sendButton.disabled = false;
-                isBusyUpdatingName = false; // Reset the busy state
-                return false; // Return false if the name is taken
+                return; // Return false if the name is taken
             }
+            saveDisplayName(userEmail, displayNameInput.value.trim());
+        }
+        // Fetch display name from the database
+        get(userRef).then((snapshot) => {
+            if (isBusySending) return;
+            isBusySending = true;
 
-            const userRef = dbRef(database, `users/${auth.currentUser.uid}`);
-            const publicDisplayNamesRef  = dbRef(database, `publicDisplayNames/${auth.currentUser.uid}`);
-            try {
-                await update(userRef, { 
-                    displayName, 
-                    email: userEmail 
-                });
-                await set(publicDisplayNamesRef, { displayName })
+            const userData = snapshot.val();
+            const displayName = userData.displayName || 'Anonymous';
+
+            const messageData = {
+                name: displayName,
+                text: messageText,
+                timestamp: Date.now(),
+                ownerId: auth.currentUser.uid
+            };
+
+            push(dbRef(database, 'publicChatRooms/defaultRoom/messages'), messageData)
                 .then(() => {
-                    console.log("Display name updated successfully!");
+                    updateUIForLoggedInUser(displayName);
+                    messageInput.value = "";
+                    statusMessageDiv.textContent = `Message sent. ${new Date(Date.now()).toLocaleTimeString()}`;
+                    passwordInput.value = ""; // Clear password
+                    displayNameInput.value = "";
                 })
                 .catch((error) => {
-                    console.error("Error updating display name:", error);
+                    console.error("Error writing data:", error);
+                    statusMessageDiv.textContent = "Maintenance! Come back tomorrow or later.";
                 });
-
-                statusMessageDiv.textContent = "Display name changed.";
-                console.log("Display name changed.");
-                return true; // Return true on success
-            } catch (error) {
-                console.error("Error writing data:", error);
-                statusMessageDiv.textContent = error.message;
-                return false; // Return false on error
-            } finally {
-                isBusyUpdatingName = false; // Reset the busy state
-            }
-        }
-
-
-        function generateDisplayNameWithToken() {
-            let randomToken;
-            
-            // Generate a unique token
-            do {
-                randomToken = Math.random().toString(36).substring(2, 12);
-            } while (existingDisplayNames.includes(`User_${randomToken}`)); // Check for duplicates
-
-            return `User_${randomToken}`; // Return the unique display name
-        }
-
-        function updateUIForLoggedInUser(displayName) {
-            passwordInput.style.display = "none";
-            displayNameInput.style.display = "none";
-            userInfo.textContent = `Welcome ${displayName}.`;
-        }
-
-        function updateUIForNewRegisteredInUser(displayName) {
-            passwordInput.style.display = "none";
-            displayNameInput.style.display = "none";
-            userInfo.textContent = `Welcome ${displayName}.`;
-        }
-
-        window.toggleChatbox = function() {
-            const isMinimized = chatbox.style.display === 'none';
-            chatbox.style.display = isMinimized ? 'flex' : 'none';
-            openChatButton.style.display = isMinimized ? 'none' : 'block';
-        }
-
-        window.forgotPassword = function() {
-            const userEmail = emailInput.value.trim();
-
-            if (userEmail === "") {
-                statusMessageDiv.textContent = "Please enter your email address.";
-                return;
-            }
-
-            sendPasswordResetEmail(auth, userEmail)
+        });
+    } 
+    else {
+    // Check if email is provided
+    if (userEmail === "") {
+            // Send as anonymous
+            const messageData = {
+                name: "Anonymous",
+                text: messageText,
+                timestamp: Date.now(),
+                ownerId: "anon"
+            };
+            push(dbRef(database, 'publicChatRooms/defaultRoom/messages'), messageData)
                 .then(() => {
-                    statusMessageDiv.textContent = "If you are registered, you will receive a password reset email.";
+                    console.log("anonymous push called");
+                    messageInput.value = "";
+                    statusMessageDiv.textContent = "Message sent as Anonymous.";
+                    userInfo.textContent = "Anonymous";
+                    sendButton.disabled = false;
                 })
                 .catch((error) => {
-                    console.error(error); 
-                    statusMessageDiv.textContent = "If you are registered, you will receive a password reset email.";
+                    console.error("Error writing data:", error);
+                    statusMessageDiv.textContent = "Maintenance! Come back tomorrow or later.";
+                    sendButton.disabled = true;
                 });
+        } else {
+                // Attempt to login/register
+                signInWithEmailAndPassword(auth, userEmail, userPassword)
+                    .then(() => {
+                        sendButton.disabled = true;
+                        if (displayNameInput.value !== "") {
+                            if (existingDisplayNames.includes(displayNameInput.value)) {
+                                console.log("ALREADY TAKEN");
+                                statusMessageDiv.textContent = "Display name already taken. Please choose another.";
+                                sendButton.disabled = false;
+                                return; // Return false if the name is taken
+                            }
+                            saveDisplayName(userEmail, displayNameInput.value.trim());
+                        }
+                        // Fetch the display name from the database
+                        const userRef = dbRef(database, `users/${auth.currentUser.uid}`);
+                        get(userRef).then((snapshot) => {
+                            if (isBusySending) return;
+                                isBusySending = true;
+
+                            const userData = snapshot.val();
+                            const displayName = userData.displayName || 'Error loading name';
+
+                            const messageData = {
+                                name: displayName, // Use display name from database
+                                text: messageText,
+                                timestamp: Date.now(),
+                                ownerId: auth.currentUser.uid
+                            };
+                            
+                            push(dbRef(database, 'publicChatRooms/defaultRoom/messages'), messageData)
+                            .then(() => {
+                                console.log("signed in sent message called");
+                                statusMessageDiv.textContent = "";
+                                
+                                messageInput.value = "";
+                                passwordInput.value = ""; // Clear password
+                                updateUIForLoggedInUser(displayName);
+                                displayNameInput.value = "";
+                                
+                                sendButton.disabled = false;
+                                
+                            })
+                            .catch((error) => {
+                                console.error("Error writing data:", error);
+                                statusMessageDiv.textContent = "Maintenance! Come back tomorrow or later.";
+                                sendButton.disabled = true;
+                            });  
+                        }).catch((error) => {
+                            console.error('Error fetching user data on sign in!!:', error);
+                            statusMessageDiv.textContent = "Error";
+                        });
+                    })
+                    .catch((error) => {
+                        sendButton.disabled = true;
+
+                        if (error.code === 'auth/user-not-found') {
+                            // Not registered, attempt to register
+                            let displayName = displayNameInput.value.trim();
+                            displayName = displayName === "" ? generateDisplayNameWithToken() : displayName;
+                            if (existingDisplayNames.includes(displayName)) {
+                                console.log("ALREADY TAKEN");
+                                statusMessageDiv.textContent = "Display name already taken. Please choose another.";
+                                sendButton.disabled = false;
+                                return; // Return false if the name is taken
+                            }
+                            console.log("Sending with user2");
+                            createUserWithEmailAndPassword(auth, userEmail, userPassword)
+                                .then(() => {
+                                    if (!saveDisplayName(userEmail, displayName)){
+                                        console.log("FAILED DISPLAY NAME");
+                                        statusMessageDiv.textContent =  "Failed.";
+                                    }
+                                    const messageData = {
+                                        text: messageText,
+                                        name: displayName,
+                                        timestamp: Date.now(),
+                                        ownerId: auth.currentUser.uid
+                                    };
+
+                                    push(dbRef(database, 'publicChatRooms/defaultRoom/messages'), messageData)
+                                        .then(() => {
+                                            statusMessageDiv.textContent = "";
+                                            console.log("registration 01 push called");
+                                            messageInput.value = "";
+                                            passwordInput.value = ""; // Clear password
+                                            updateUIForNewRegisteredInUser(displayName);
+                                            sendButton.disabled = false;
+                                        })
+                                        .catch((error) => {
+                                            console.error("Error writing data:", error);
+                                            statusMessageDiv.textContent = "Maintenance! Come back tomorrow or later.";
+                                            sendButton.disabled = true;
+                                        });
+                                })
+                                .catch((error) => {
+                                    statusMessageDiv.textContent = error.message;
+                                });
+                            
+                        } else if (error.code === 'auth/invalid-credential') {
+                            console.log("Sending with user3");
+
+                            let displayName = displayNameInput.value.trim();
+                            displayName = displayName === "" ? generateDisplayNameWithToken() : displayName;
+                            if (existingDisplayNames.includes(displayName)) {
+                                console.log("ALREADY TAKEN");
+                                statusMessageDiv.textContent = "Display name already taken. Please choose another.";
+                                sendButton.disabled = false;
+                                return; // Return false if the name is taken
+                            }
+                                createUserWithEmailAndPassword(auth, userEmail, userPassword)
+                                .then(() => {
+                                        if (!saveDisplayName(userEmail, displayName)){
+                                        console.log("FAILED DISPLAY NAME");
+                                        statusMessageDiv.textContent =  "Failed.";
+                                    }
+                                    const messageData = {
+                                        text: messageText,
+                                        name: displayName,
+                                        timestamp: Date.now(),
+                                        ownerId: auth.currentUser.uid
+                                    };
+
+                                    push(dbRef(database, 'publicChatRooms/defaultRoom/messages'), messageData)
+                                        .then(() => {
+                                            statusMessageDiv.textContent = "";
+                                            console.log("registration 02 push called");
+                                            messageInput.value = "";
+                                            passwordInput.value = ""; // Clear password
+                                            updateUIForNewRegisteredInUser(displayName);
+                                            sendButton.disabled = false;
+
+                                        })
+                                        .catch((error) => {
+                                            console.error("Error writing data:", error);
+                                            statusMessageDiv.textContent = "Maintenance! Come back tomorrow or later.";
+                                            sendButton.disabled = true;
+                                        });
+                                })
+                                .catch((error) => {
+                                    statusMessageDiv.textContent = "Something went wrong. Please try it again or nech an696 9 at gmaildotcom for support. or make sure your password is correct.";
+                                });
+                            
+                        } else if (error.code === 'auth/missing-password') {
+                            statusMessageDiv.textContent =  "Enter password.";
+                        } else {
+                            // Handle other errors
+                            statusMessageDiv.textContent = "Too many attempts or something went wrong. Please try it again later or nech an696 9 at gmaildotcom for support. - or make sure your password is correct.";
+                        }
+                    });
+            }
         }
-        function resetUIForLoggedOutUser() {
-            passwordInput.style.display = "block"; // Show password input
-            displayNameInput.style.display = "block"; // Show display name input
-            emailInput.value = ""; // Clear email input
-            passwordInput.value = ""; // Clear password input
-            displayNameInput.value = ""; // Clear display name input
-            userInfo.textContent = "";
-            signOutButton.style.display = "none";
+        isSendingMessage = false;
+        isBusySending = false;
+
+        }, 1250);
+
+        isSendingMessage = false;
+        isBusySending = false;
+    }
+    let isBusyUpdatingName = false;
+
+
+    async function saveDisplayName(userEmail, displayName) {
+        if (isBusyUpdatingName) return false; // Return false if already busy
+        
+        isBusyUpdatingName = true;
+
+        if (existingDisplayNames.includes(displayName)) {
+            console.log("ALREADY TAKEN");
+            statusMessageDiv.textContent = "Display name already taken. Please choose another.";
+            sendButton.disabled = false;
+            isBusyUpdatingName = false; // Reset the busy state
+            return false; // Return false if the name is taken
         }
 
-        window.signOut = function() {
-            signOut(auth)
-                .then(() => {
-                    // Sign-out successful.
-                    statusMessageDiv.textContent = "You have been signed out.";
-                    resetUIForLoggedOutUser(); // Reset UI for logged out state
-                })
-                .catch((error) => {
-                    console.error("Error signing out:", error);
-                    statusMessageDiv.textContent = "Error signing out. Please try again.";
-                });
-        };
+        const userRef = dbRef(database, `users/${auth.currentUser.uid}`);
+        const publicDisplayNamesRef  = dbRef(database, `publicDisplayNames/${auth.currentUser.uid}`);
+        try {
+            await update(userRef, { 
+                displayName, 
+                email: userEmail 
+            });
+            await set(publicDisplayNamesRef, { displayName })
+            .then(() => {
+                console.log("Display name updated successfully!");
+            })
+            .catch((error) => {
+                console.error("Error updating display name:", error);
+            });
+
+            statusMessageDiv.textContent = "Display name changed.";
+            console.log("Display name changed.");
+            return true; // Return true on success
+        } catch (error) {
+            console.error("Error writing data:", error);
+            statusMessageDiv.textContent = error.message;
+            return false; // Return false on error
+        } finally {
+            isBusyUpdatingName = false; // Reset the busy state
+        }
+    }
+
+
+    function generateDisplayNameWithToken() {
+        let randomToken;
+        
+        // Generate a unique token
+        do {
+            randomToken = Math.random().toString(36).substring(2, 12);
+        } while (existingDisplayNames.includes(`User_${randomToken}`)); // Check for duplicates
+
+        return `User_${randomToken}`; // Return the unique display name
+    }
+
+    function updateUIForLoggedInUser(displayName) {
+        passwordInput.style.display = "none";
+        displayNameInput.style.display = "none";
+        userInfo.textContent = `Welcome ${displayName}.`;
+    }
+
+    function updateUIForNewRegisteredInUser(displayName) {
+        passwordInput.style.display = "none";
+        displayNameInput.style.display = "none";
+        userInfo.textContent = `Welcome ${displayName}.`;
+    }
+
+    window.toggleChatbox = function() {
+        const isMinimized = chatbox.style.display === 'none';
+        chatbox.style.display = isMinimized ? 'flex' : 'none';
+        openChatButton.style.display = isMinimized ? 'none' : 'block';
+    }
+
+    window.forgotPassword = function() {
+        const userEmail = emailInput.value.trim();
+
+        if (userEmail === "") {
+            statusMessageDiv.textContent = "Please enter your email address.";
+            return;
+        }
+
+        sendPasswordResetEmail(auth, userEmail)
+            .then(() => {
+                statusMessageDiv.textContent = "If you are registered, you will receive a password reset email.";
+            })
+            .catch((error) => {
+                console.error(error); 
+                statusMessageDiv.textContent = "If you are registered, you will receive a password reset email.";
+            });
+    }
+    function resetUIForLoggedOutUser() {
+        passwordInput.style.display = "block"; // Show password input
+        displayNameInput.style.display = "block"; // Show display name input
+        emailInput.value = ""; // Clear email input
+        passwordInput.value = ""; // Clear password input
+        displayNameInput.value = ""; // Clear display name input
+        userInfo.textContent = "";
+        signOutButton.style.display = "none";
+    }
+
+    window.signOut = function() {
+        signOut(auth)
+            .then(() => {
+                // Sign-out successful.
+                statusMessageDiv.textContent = "You have been signed out.";
+                resetUIForLoggedOutUser(); // Reset UI for logged out state
+            })
+            .catch((error) => {
+                console.error("Error signing out:", error);
+                statusMessageDiv.textContent = "Error signing out. Please try again.";
+            });
+    };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // the draggables
 
     let showDraggables = true;
     if (showDraggables) {
         
-        listAll(imagesRef).then((res) => {
-    if (res.items.length > 0) {
-        res.items.forEach((itemRef) => {
-            // Get download URL for each image
-            getDownloadURL(itemRef).then((url) => {
-                createDraggableImage(url); // Create draggable image for each URL
-            }).catch((error) => {
-                console.error("Error getting image URL:", error);
+            listAll(imagesRef).then((res) => {
+        if (res.items.length > 0) {
+            res.items.forEach((itemRef) => {
+                // Get download URL for each image
+                getDownloadURL(itemRef).then((url) => {
+                    createDraggableImage(url); // Create draggable image for each URL
+                }).catch((error) => {
+                    console.error("Error getting image URL:", error);
+                });
             });
+        } else {
+            console.log("No images found.");
+        }
+        }).catch((error) => {
+            console.error("Error listing images:", error);
         });
-    } else {
-        console.log("No images found.");
+
+        // Function to create draggable images
+        function createDraggableImage(imageUrl) {
+            const img = document.createElement('img');
+            img.src = imageUrl;
+            img.className = 'draggable';
+            img.style.position = 'absolute';
+            img.style.width = '100px'; // Set a width
+            img.style.height = '100px'; // Set a height
+            img.setAttribute('draggable', false); // Prevent default dragging behavior
+
+            const maxWidth = window.innerWidth - 100; // Adjust for element width
+            const maxHeight = window.innerHeight - 100; // Adjust for element height
+            const randomLeft = Math.floor(Math.random() * maxWidth);
+            const randomTop = Math.floor(Math.random() * maxHeight);
+            img.style.left = randomLeft + 'px';
+            img.style.top = randomTop + 'px';
+
+            document.body.appendChild(img);
+            makeDraggable(img);
+        }
+
+        // Function to make images draggable on both desktop and mobile
+        function makeDraggable(element) {
+            let offsetX, offsetY;
+
+            // Desktop: mouse down event
+            element.addEventListener('mousedown', (e) => {
+                e.preventDefault(); // Prevent default behavior like selecting text or dragging
+
+                // Calculate the offset between the mouse click position and the image's position
+                const rect = element.getBoundingClientRect();
+                offsetX = e.clientX - rect.left; // Horizontal offset
+                offsetY = e.clientY - rect.top; // Vertical offset
+
+                // Add event listeners for moving the image
+                document.addEventListener('mousemove', mouseMoveHandler);
+            });
+
+            // Mobile: touch start event
+            element.addEventListener('touchstart', (e) => {
+                e.preventDefault(); // Prevent default behavior like scrolling
+
+                const touch = e.touches[0]; // Only consider the first touch point
+                const rect = element.getBoundingClientRect();
+                offsetX = touch.clientX - rect.left; // Horizontal offset
+                offsetY = touch.clientY - rect.top; // Vertical offset
+
+                // Add event listeners for moving the image on touch devices
+                document.addEventListener('touchmove', touchMoveHandler);
+            });
+
+            function mouseMoveHandler(e) {
+                // Calculate the new position of the image, accounting for scroll
+                const newX = e.clientX - offsetX + window.scrollX; // Horizontal position, adjusted for horizontal scroll
+                const newY = e.clientY - offsetY + window.scrollY; // Vertical position, adjusted for vertical scroll
+
+                moveElementToPosition(newX, newY);
+            }
+
+            function touchMoveHandler(e) {
+                const touch = e.touches[0]; // Only consider the first touch point
+                const newX = touch.clientX - offsetX + window.scrollX; // Horizontal position, adjusted for horizontal scroll
+                const newY = touch.clientY - offsetY + window.scrollY; // Vertical position, adjusted for vertical scroll
+
+                moveElementToPosition(newX, newY);
+            }
+
+            function moveElementToPosition(newX, newY) {
+                const viewportWidth = window.innerWidth + window.scrollX; // Adjust for horizontal scroll
+                const viewportHeight = window.innerHeight + window.scrollY; // Adjust for vertical scroll
+
+                // Ensure the image stays within the viewport
+                const constrainedX = Math.max(0, Math.min(newX, viewportWidth - element.offsetWidth));
+                const constrainedY = Math.max(0, Math.min(newY, viewportHeight - element.offsetHeight));
+
+                // Update the position of the image
+                element.style.left = `${constrainedX}px`;
+                element.style.top = `${constrainedY}px`;
+            }
+
+            // Stop moving the image when mouse is released
+            document.addEventListener('mouseup', () => {
+                document.removeEventListener('mousemove', mouseMoveHandler);
+            });
+
+            // Stop moving the image when touch ends
+            document.addEventListener('touchend', () => {
+                document.removeEventListener('touchmove', touchMoveHandler);
+            });
+        }
     }
-}).catch((error) => {
-    console.error("Error listing images:", error);
-});
-
-// Function to create draggable images
-function createDraggableImage(imageUrl) {
-    const img = document.createElement('img');
-    img.src = imageUrl;
-    img.className = 'draggable';
-    img.style.position = 'absolute';
-    img.style.width = '100px'; // Set a width
-    img.style.height = '100px'; // Set a height
-    img.setAttribute('draggable', false); // Prevent default dragging behavior
-
-    const maxWidth = window.innerWidth - 100; // Adjust for element width
-    const maxHeight = window.innerHeight - 100; // Adjust for element height
-    const randomLeft = Math.floor(Math.random() * maxWidth);
-    const randomTop = Math.floor(Math.random() * maxHeight);
-    img.style.left = randomLeft + 'px';
-    img.style.top = randomTop + 'px';
-
-    document.body.appendChild(img);
-    makeDraggable(img);
-}
-
-// Function to make images draggable on both desktop and mobile
-function makeDraggable(element) {
-    let offsetX, offsetY;
-
-    // Desktop: mouse down event
-    element.addEventListener('mousedown', (e) => {
-        e.preventDefault(); // Prevent default behavior like selecting text or dragging
-
-        // Calculate the offset between the mouse click position and the image's position
-        const rect = element.getBoundingClientRect();
-        offsetX = e.clientX - rect.left; // Horizontal offset
-        offsetY = e.clientY - rect.top; // Vertical offset
-
-        // Add event listeners for moving the image
-        document.addEventListener('mousemove', mouseMoveHandler);
-    });
-
-    // Mobile: touch start event
-    element.addEventListener('touchstart', (e) => {
-        e.preventDefault(); // Prevent default behavior like scrolling
-
-        const touch = e.touches[0]; // Only consider the first touch point
-        const rect = element.getBoundingClientRect();
-        offsetX = touch.clientX - rect.left; // Horizontal offset
-        offsetY = touch.clientY - rect.top; // Vertical offset
-
-        // Add event listeners for moving the image on touch devices
-        document.addEventListener('touchmove', touchMoveHandler);
-    });
-
-    function mouseMoveHandler(e) {
-        // Calculate the new position of the image, accounting for scroll
-        const newX = e.clientX - offsetX + window.scrollX; // Horizontal position, adjusted for horizontal scroll
-        const newY = e.clientY - offsetY + window.scrollY; // Vertical position, adjusted for vertical scroll
-
-        moveElementToPosition(newX, newY);
-    }
-
-    function touchMoveHandler(e) {
-        const touch = e.touches[0]; // Only consider the first touch point
-        const newX = touch.clientX - offsetX + window.scrollX; // Horizontal position, adjusted for horizontal scroll
-        const newY = touch.clientY - offsetY + window.scrollY; // Vertical position, adjusted for vertical scroll
-
-        moveElementToPosition(newX, newY);
-    }
-
-    function moveElementToPosition(newX, newY) {
-        const viewportWidth = window.innerWidth + window.scrollX; // Adjust for horizontal scroll
-        const viewportHeight = window.innerHeight + window.scrollY; // Adjust for vertical scroll
-
-        // Ensure the image stays within the viewport
-        const constrainedX = Math.max(0, Math.min(newX, viewportWidth - element.offsetWidth));
-        const constrainedY = Math.max(0, Math.min(newY, viewportHeight - element.offsetHeight));
-
-        // Update the position of the image
-        element.style.left = `${constrainedX}px`;
-        element.style.top = `${constrainedY}px`;
-    }
-
-    // Stop moving the image when mouse is released
-    document.addEventListener('mouseup', () => {
-        document.removeEventListener('mousemove', mouseMoveHandler);
-    });
-
-    // Stop moving the image when touch ends
-    document.addEventListener('touchend', () => {
-        document.removeEventListener('touchmove', touchMoveHandler);
-    });
-}
 
 
-}
+
 } else {
     document.body.innerHTML = 'Error. Come back again later.'; 
     confirm("Error. Come back again later.");
@@ -1088,6 +1202,11 @@ function makeDraggable(element) {
     }
 });
 </script>
+
+
+
+
+
 
 
 
