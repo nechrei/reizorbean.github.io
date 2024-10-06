@@ -154,10 +154,7 @@ li{
     user-select: none;
 }
 
-.card p {
-    color: rgba(255, 255, 255, 0.9); /* White text */
-    text-shadow: 0 3 22px rgb(0, 255, 187);
-}
+
 #note{
     font-family:Verdana, Geneva, Tahoma, sans-serif;    
     margin: 0;
@@ -176,13 +173,17 @@ li{
     user-select: none;
     color: #a1ffffdb;
 }
-
+.card p {
+    color: rgba(255, 255, 255, 0.9); /* White text */
+    text-shadow: 0 3 22px rgb(0, 255, 187);
+    font-size: 20px;
+}
 .gotothing{
     transition: font-size 0.2s, text-shadow 0.34s;
     text-shadow: 2px 2px 2px #8ad0ff;
 
 }.gotothing:hover{
-    font-size: 19px;
+    font-size: 22px;
     text-shadow: 3px 3px 6px #8ad0ff,
     3px 3px 6px #ffe48a;
 
