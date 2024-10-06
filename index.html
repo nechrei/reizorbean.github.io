@@ -177,6 +177,7 @@
             playerVars: {autoplay:1, loop:1},
             events: {
                 'onReady': onPlayerReady,
+                
                 'onStateChange': onPlayerStateChange
             }
         });
@@ -225,6 +226,8 @@
             currentTimeDisplay.textContent = formatTime(currentTime);
             durationDisplay.textContent = formatTime(duration);
         }, 1000);
+
+        player.pauseVideo();
     }
 
     // When the player state changes, ensure the button updates accordingly
