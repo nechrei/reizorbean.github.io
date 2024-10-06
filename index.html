@@ -134,15 +134,15 @@
             <div class="grid">
                 <div class="section left">
                     <h2>Stuff</h2>
-                    <p>Article 1: Lorem ipsum dolor sit.</p>
-                    <p>Article 2: Sed do eiusmod tempor.</p>
-                    <p>Article 3: Ut enim ad minim veniam.</p>
+                    <p id="note">cool stuff</p>
+                    <p>Music Stash</p>
+                    <p>Sources Of Happiness</p>
                 </div>
                 <div class="section right">
                     <h2>More stuff</h2>
-                    <p>Section 1: Duis aute irure dolor.</p>
-                    <p>Section 2: Excepteur sint occaecat.</p>
-                    <p>Section 3: Quis autem vel eum iure.</p>
+                    <p id="note">cool vibes</p>
+                    <p>Sweetcore</p>
+                    <p>...</p>
                 </div>
             </div>
         </div>
@@ -485,7 +485,7 @@
                     const message = messages[key];
                     const messageElement = document.createElement("div");
                     messageElement.className = "message";
-                    messageElement.textContent = `${message.name || 'Anonymous'}: ${message.text} (sent at ${new Date().toLocaleTimeString()} ${new Date().toLocaleDateString()})`;
+                    messageElement.textContent = `${message.name || 'Anonymous'}: ${message.text} (sent at ${new Date().toLocaleTimeString()} )`;
                     messagesDiv.appendChild(messageElement);
                 }
                 messagesDiv.scrollTop = messagesDiv.scrollHeight;
@@ -910,8 +910,7 @@
     let showDraggables = true;
     if (showDraggables) {
         
-// List all items (images) under the 'images' reference
-listAll(imagesRef).then((res) => {
+        listAll(imagesRef).then((res) => {
     if (res.items.length > 0) {
         res.items.forEach((itemRef) => {
             // Get download URL for each image
@@ -949,10 +948,11 @@ function createDraggableImage(imageUrl) {
     makeDraggable(img);
 }
 
-// Function to make images draggable
+// Function to make images draggable on both desktop and mobile
 function makeDraggable(element) {
     let offsetX, offsetY;
 
+    // Desktop: mouse down event
     element.addEventListener('mousedown', (e) => {
         e.preventDefault(); // Prevent default behavior like selecting text or dragging
 
@@ -965,11 +965,36 @@ function makeDraggable(element) {
         document.addEventListener('mousemove', mouseMoveHandler);
     });
 
+    // Mobile: touch start event
+    element.addEventListener('touchstart', (e) => {
+        e.preventDefault(); // Prevent default behavior like scrolling
+
+        const touch = e.touches[0]; // Only consider the first touch point
+        const rect = element.getBoundingClientRect();
+        offsetX = touch.clientX - rect.left; // Horizontal offset
+        offsetY = touch.clientY - rect.top; // Vertical offset
+
+        // Add event listeners for moving the image on touch devices
+        document.addEventListener('touchmove', touchMoveHandler);
+    });
+
     function mouseMoveHandler(e) {
         // Calculate the new position of the image, accounting for scroll
         const newX = e.clientX - offsetX + window.scrollX; // Horizontal position, adjusted for horizontal scroll
         const newY = e.clientY - offsetY + window.scrollY; // Vertical position, adjusted for vertical scroll
 
+        moveElementToPosition(newX, newY);
+    }
+
+    function touchMoveHandler(e) {
+        const touch = e.touches[0]; // Only consider the first touch point
+        const newX = touch.clientX - offsetX + window.scrollX; // Horizontal position, adjusted for horizontal scroll
+        const newY = touch.clientY - offsetY + window.scrollY; // Vertical position, adjusted for vertical scroll
+
+        moveElementToPosition(newX, newY);
+    }
+
+    function moveElementToPosition(newX, newY) {
         const viewportWidth = window.innerWidth + window.scrollX; // Adjust for horizontal scroll
         const viewportHeight = window.innerHeight + window.scrollY; // Adjust for vertical scroll
 
@@ -986,7 +1011,13 @@ function makeDraggable(element) {
     document.addEventListener('mouseup', () => {
         document.removeEventListener('mousemove', mouseMoveHandler);
     });
+
+    // Stop moving the image when touch ends
+    document.addEventListener('touchend', () => {
+        document.removeEventListener('touchmove', touchMoveHandler);
+    });
 }
+
 
 }
 } else {
@@ -997,7 +1028,40 @@ function makeDraggable(element) {
     }
 });
 </script>
-<p class="bns">Beans is and will forever be my one and only!</p>
+
+
+
+<div id="typebns">
+<p id="typewriter" class= "bns"></p>
+<p id="blinker-pos"></p>
+</div>
+<script>
+      const text = "Beans is and will forever be my one and only!";
+    const typewriterElement = document.getElementById("typewriter");
+    const blinkerElement = document.getElementById("blinker-pos");
+    let index = 0;
+ // Create and append the cursor at the beginning
+    const blinkCursor = document.createElement("span");
+    blinkCursor.className = "cursor"; // Apply the cursor styles
+    blinkerElement.appendChild(blinkCursor); // Append cursor initially
+    function typeWriter() {
+        if (index < text.length) {
+            typewriterElement.textContent += text.charAt(index); // Add the next character
+            index++;
+            
+            // Move the cursor to the end
+            setTimeout(typeWriter, 160); // Adjust the speed (160ms between characters)
+        } else {
+            // Optionally, you can remove the cursor after some time
+            setTimeout(() => {
+                blinkerElement.remove(); // Remove the cursor
+            }, 3000); // Adjust this value to keep the cursor longer or shorter
+        }
+    }
+
+    // Start the typewriter effect
+    typeWriter();
+</script>
 
 
 </div>
