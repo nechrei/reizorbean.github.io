@@ -295,6 +295,52 @@ li{
     transition: box-shadow 0.3s;
 }
 
+#seek-bar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #36a73a, #5c755d); /* Gradient for the thumb */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 0 10px rgba(192, 255, 194, 0.7); /* Drop shadow and glow */
+    border: 2px solid #fffed5; /* White border for a crisp edge */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#seek-bar::-webkit-slider-thumb:hover {
+    transform: scale(1.2); /* Enlarges slightly on hover */
+    background: radial-gradient(circle, #4b854d, #88c28a); /* Gradient for the thumb */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5), 0 0 15px rgba(76, 175, 80, 1); /* Stronger glow */
+}
+
+#seek-bar::-webkit-slider-thumb:active {
+    transform: scale(1.1); /* Slight scale-down when clicked */
+    background: radial-gradient(circle, #a1f9a4, #5c755d); /* Gradient for the thumb */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5), 0 0 8px rgba(76, 175, 80, 1);
+}
+
+ /* For Firefox */
+ #seek-bar::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #36a73a, #5c755d); /* Gradient for the thumb */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 0 10px rgba(192, 255, 194, 0.7); /* Drop shadow and glow */
+    border: 2px solid #fffed5; /* White border for a crisp edge */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#seek-bar::-moz-range-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5), 0 0 15px rgba(76, 175, 80, 1);
+}
+
+#seek-bar::-moz-range-thumb:active {
+    transform: scale(1.1);
+    background: radial-gradient(circle, #a1f9a4, #5c755d); /* Gradient for the thumb */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5), 0 0 8px rgba(76, 175, 80, 1);
+}
+
 #seek-bar:hover {
     box-shadow: 0px 0px 15px var(--neon-blue), 0px 0px 30px var(--neon-yellow);
 }
@@ -423,6 +469,7 @@ a {
         0 0 15px rgba(255, 215, 0, 0.7); /* Add a glowing effect */
 }
 .topic {
+    margin-top: 75px;
     user-select: none;
     font-family: 'Comic Sans MS', cursive, sans-serif; /* Cute font */
     font-size: 4em; /* Large font size */
