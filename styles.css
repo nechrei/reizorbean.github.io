@@ -134,12 +134,12 @@ li{
 
 .card {
     background-color: rgba(255, 0, 0, 0.1); /* Light red background */
-    border: 2px solid rgba(255, 82, 82, 0.8); /* Neon border */
+    border: 2px solid rgba(239, 157, 157, 0.8); /* Neon border */
     border-radius: 15px; /* More rounded corners */
     padding: 20px;
     margin: 15px;
     text-align: center;
-    box-shadow: 0 0 20px rgba(206, 32, 32, 0.8), 
+    box-shadow: 0 0 20px rgba(255, 76, 76, 0.8), 
                 0 0 30px rgba(255, 84, 84, 0.6);
     transition: 0.3s;
     width: 80%; /* Responsive width */
