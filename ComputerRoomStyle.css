@@ -1,0 +1,251 @@
+.tops{
+  position: relative !important;
+}
+
+.chat-container{
+  display: flex !important;
+  position: relative !important;
+}
+.OnTopOptions{
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+}
+body {
+  -webkit-user-drag: none; /* For WebKit-based browsers (Chrome, Safari) */
+  user-select: none;
+  height: 100vh;
+  margin: 0;
+  background: linear-gradient(40deg, #0f040ba7, #45097dc1, #290d20b8); /* Vaporwave gradient */
+  overflow: hidden;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#grid0 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.359) 1px, 
+  transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.67) 1px, transparent 1px);
+  background-size: 10px 4px; /* Adjust size of the grid squares */
+  animation: moveGrid0 10s linear infinite; /* Animating the grid */
+  pointer-events: none; /* So that the grid doesn't interfere with user interaction */
+}
+
+@keyframes moveGrid0 {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: -50px 40px; /* Move to top left */
+  }
+}
+
+#grid1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.493) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.641) 1px, transparent 1px);
+  background-size: 40px 40px; /* Adjust size of the grid squares */
+  animation: moveGrid1 40s linear infinite; /* Animating the grid */
+  pointer-events: none; /* So that the grid doesn't interfere with user interaction */
+}
+
+@keyframes moveGrid1 {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: -200px -200px; /* Move to top left */
+  }
+}
+
+#grid2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.727) 1px, transparent 1px), 
+  linear-gradient(90deg, rgba(255, 255, 255, 0.487) 1px, transparent 1px);
+  background-size: 40px 40px; /* Adjust size of the grid squares */
+  animation: moveGrid2 85s linear infinite; /* Animating the grid */
+  pointer-events: none; /* So that the grid doesn't interfere with user interaction */
+}
+
+@keyframes moveGrid2 {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 120px 120px; /* Move to top left */
+  }
+}
+
+#grid3 {
+  transform: perspective(2240px) rotateY(44deg) translate(0, 0);  
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 250%;
+  height: 100%;
+  background-image: linear-gradient(rgba(63, 210, 44, 0.34) 8px, transparent 1px), 
+  linear-gradient(90deg, rgba(0, 255, 21, 0.202) 4px, transparent 1px);
+  background-size: 140px 70px; /* Adjust size of the grid squares */
+  animation: moveGrid3 110s linear infinite; /* Animating the grid */
+  pointer-events: none; /* So that the grid doesn't interfere with user interaction */
+}
+
+@keyframes moveGrid3 {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: -200px -200px; /* Move to top left */
+  }
+}
+
+#grid4 {
+  transform: perspective(240px) rotateY(24deg) translate(0, -11%);  
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1100%;
+  height: 1100%;
+  background-image: linear-gradient(rgba(63, 210, 44, 0.448) 8px, transparent 1px), 
+  linear-gradient(90deg, rgba(0, 255, 21, 0.356) 2px, transparent 1px);
+  background-size: 140px 70px; /* Adjust size of the grid squares */
+  animation: moveGrid4 60s linear infinite; /* Animating the grid */
+  pointer-events: none; /* So that the grid doesn't interfere with user interaction */
+}
+
+@keyframes moveGrid4 {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position:10px -120px; /* Move to top left */
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#tv{
+    user-select: none;
+    -webkit-user-drag: none; /* For WebKit-based browsers (Chrome, Safari) */
+    height: fit-content; 
+    width:fit-content; 
+    position: absolute;
+    top: 50%; 
+    width: 415px;
+    height: 415px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+}
+
+#screen {
+  border: 6px solid rgb(185, 155, 255);
+  height: fit-content; 
+  z-index: 2;
+  width:fit-content; 
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background-color: #ff69b4; /* Pink background */
+  color: white;
+  transform-origin: center -61px -10px;
+  transform: perspective(1900px) rotateY(24deg) translate(-48.7%, -61%);  
+}
+
+#dot {
+  z-index: 100;
+  display: none;
+  border: 6px solid rgb(237, 155, 255);
+  height: fit-content; 
+  width:fit-content; 
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background-color: #ff69b4; /* Pink background */
+  color: white;
+}
+
+#screen-cover {
+  border: 1px solid rgb(28, 244, 255);
+}
+
+#showcontent-wrapper {
+  position: relative;
+  width: 350px;
+  height: 250px;
+  margin: 0;    
+  overflow-y: auto;
+    overflow-x: hidden;
+}
+#showcontent {
+    height: inherit; 
+    width:inherit; 
+}
+
+
+
+::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #5c1aeb54; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #87d3ff; 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(237, 155, 255); 
+  }

@@ -1,0 +1,950 @@
+
+
+
+.neon-title {
+    user-select: none;
+    margin: 3px;
+    padding: 0;
+    font-family: 'Courier New', Courier, monospace; /* Retro font */
+    font-size: 11px; /* Keeping the font size */
+    color: #5efff7; /* Base neon color */
+    text-align: center;
+    text-transform: uppercase; /* Uppercase letters for that retro vibe */
+    text-shadow: 
+        0 0 5px #5efff7,    /* Subtle glow */
+        0 0 15px #5efff7,   /* Bright neon glow */
+        0 0 20px #00eaff,    /* Bright cyan glow */
+        0 0 25px #0883d4,    /* Deeper blue glow */
+        0 0 35px #00ccff,    /* Light blue for depth */
+        0 0 50px #ff27c2,    /* Vivid pink glow */
+        0 0 70px #ff33a3,    /* Soft pink with larger spread */
+        0 0 90px #ff4040,    /* Deep red for a more dramatic effect */
+        0 0 120px rgba(255, 0, 0, 0.6); /* Soft red glow for additional depth */
+}
+
+
+
+
+.slider {
+    width:100%;
+    overflow:hidden;
+    position:relative;
+    margin:0;
+    padding: 0;
+}
+
+.slideContainer {
+    border-bottom: 2px solid rgb(212, 110, 110);
+    border-top: 2px solid cyan;
+    display: flex; /* Ensure that the items are displayed in a row */
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    list-style: none;
+    user-select: none;
+}
+
+.slideItem {
+    display: inline-block;
+    font-size: 12px;
+    padding: 6px;
+    white-space: nowrap;    
+    text-shadow: 2px 2px 4px rgb(217, 235, 244); /* Adjust the shadow properties as needed */
+    transition: margin 0.3s ease; /* Add transition for smoother effect */
+}
+.edge{
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    position:absolute;
+    height:100%;
+    display:block;
+}
+.edge:before{
+    content:'';
+    position:absolute;
+    left:0;
+    z-index: 1;
+    background:-webkit-linear-gradient(left,rgba(255, 69, 215, 0.656) 20%, rgba(93, 1, 1, 0) 100%);
+    width:55%;
+    height:100%;
+}
+.edge:after{
+    content:'';
+    position:absolute;
+    z-index: 1;
+    right: 0;
+    background:-webkit-linear-gradient(right, rgba(255, 69, 215, 0.656)  20%, rgba(93, 1, 1, 0) 100%);
+    width:55%;
+    height:100%;
+}
+ul{
+    background:-webkit-linear-gradient(rgb(0, 179, 255) 10%, rgba(0, 0, 0, 0.137) 100%);
+    overflow:hidden;
+    width:1000%;
+    margin:0;
+}
+li{
+    list-style:none;
+    display:inline-block;
+    padding:0 50px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.cardcontainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh; /* Full viewport height */
+}
+
+.card {
+    background-color: rgba(255, 0, 0, 0.1); /* Light red background */
+    border: 2px solid rgba(239, 157, 157, 0.8); /* Neon border */
+    border-radius: 15px; /* More rounded corners */
+    padding: 20px;
+    margin: 15px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(255, 76, 76, 0.8), 
+                0 0 30px rgba(255, 84, 84, 0.6);
+    transition: 0.3s;
+    width: 80%; /* Responsive width */
+    max-width: 800px; /* Max width for larger screens */
+}
+
+.card h2 {
+    color: rgb(188, 237, 255); /* Bright red text */
+    text-shadow: 0 0 33px rgb(84, 255, 252), 
+                 0 0 10px #00ffbffd;
+    margin-bottom: 3px;
+    user-select: none;
+}
+
+
+#note{
+    font-family:Verdana, Geneva, Tahoma, sans-serif;    
+    margin: 0;
+    font-size: 17px;
+    letter-spacing: 3px;
+    word-spacing: 3px;
+    margin-bottom: 4px;
+    padding: 0;
+    font-weight:bolder;
+    opacity: 20%;
+    text-shadow: 3px 3px 11px #7ecbff; /* Example shadow */
+    transition: opacity 0.22s;
+}
+.card .section:hover #note {
+    opacity: 90%;
+    user-select: none;
+    color: #a1ffffdb;
+}
+.card p {
+    color: rgba(255, 255, 255, 0.9); /* White text */
+    text-shadow: 0 3 22px rgb(0, 255, 187);
+    font-size: 20px;
+}
+.gotothing{
+    transition: font-size 0.2s, text-shadow 0.34s;
+    text-shadow: 2px 2px 2px #8ad0ff;
+
+}.gotothing:hover{
+    font-size: 22px;
+    text-shadow: 3px 3px 6px #8ad0ff,
+    3px 3px 6px #ffe48a;
+
+}
+
+/* Grid layout for sections */
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    gap: 20px; /* Space between columns */
+    margin-top: 20px; /* Space above grid */
+}
+
+.section {
+    background-color: rgba(255, 0, 0, 0.2); /* Slightly darker background for sections */
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+}
+
+
+.section p {
+    color: rgba(255, 255, 255, 0.9); /* White text for sections */
+}
+
+/* Hover effect */
+.card:hover {
+    border-color: #bbf1ff;
+    box-shadow: 0 0 30px rgba(0, 255, 229, 0.607), 
+                0 0 40px rgba(229, 237, 179, 0.8);
+}
+.card:hover h2 {
+    color: rgb(176, 255, 208); /* Bright red text on hover */
+    text-shadow: 0 0 33px rgb(84, 255, 135), 
+                 0 0 40px #00ffbffd; /* Keep the original glow */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.playonstart{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+ /* Neon Retro Colors */
+ :root {
+    --neon-pink: #ff0066;
+    --neon-cyan: #00fff7;
+    --neon-blue: #65adff;
+    --neon-yellow: #fcff5a;
+    --background-dark: #1b1b2f;
+    --background-darker: #141414;
+    --text-color: #fff;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    margin-right: 10px;
+    margin-left: 10px;
+    width: 100%;
+}
+
+/* Play/Pause Button */
+#play-pause {
+    background-color: var(--neon-pink);
+    color: var(--text-color);
+    border: 2px solid var(--neon-pink);
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: box-shadow 0.3s, background-color 0.3s;
+    text-transform: uppercase;
+}
+
+#play-pause:hover {
+    box-shadow: 0px 0px 15px var(--neon-pink), 0px 0px 30px var(--neon-cyan);
+}
+
+/* Seek Bar */
+#seek-bar {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 8px;
+    margin-right: 10px;
+    margin-left: 10px;
+    border-radius: 5px;
+    background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink));
+    outline: none;
+    transition: box-shadow 0.3s;
+}
+
+#seek-bar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #36a73a, #5c755d); /* Gradient for the thumb */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 0 10px rgba(192, 255, 194, 0.7); /* Drop shadow and glow */
+    border: 2px solid #fffed5; /* White border for a crisp edge */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#seek-bar::-webkit-slider-thumb:hover {
+    transform: scale(1.2); /* Enlarges slightly on hover */
+    background: radial-gradient(circle, #4b854d, #88c28a); /* Gradient for the thumb */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5), 0 0 15px rgba(76, 175, 80, 1); /* Stronger glow */
+}
+
+#seek-bar::-webkit-slider-thumb:active {
+    transform: scale(1.1); /* Slight scale-down when clicked */
+    background: radial-gradient(circle, #a1f9a4, #5c755d); /* Gradient for the thumb */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5), 0 0 8px rgba(76, 175, 80, 1);
+}
+
+ /* For Firefox */
+ #seek-bar::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #36a73a, #5c755d); /* Gradient for the thumb */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 0 10px rgba(192, 255, 194, 0.7); /* Drop shadow and glow */
+    border: 2px solid #fffed5; /* White border for a crisp edge */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#seek-bar::-moz-range-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5), 0 0 15px rgba(76, 175, 80, 1);
+}
+
+#seek-bar::-moz-range-thumb:active {
+    transform: scale(1.1);
+    background: radial-gradient(circle, #a1f9a4, #5c755d); /* Gradient for the thumb */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5), 0 0 8px rgba(76, 175, 80, 1);
+}
+
+#seek-bar:hover {
+    box-shadow: 0px 0px 15px var(--neon-blue), 0px 0px 30px var(--neon-yellow);
+}
+
+/* Current Time and Duration */
+.time {
+    color: var(--neon-cyan);
+    font-size: 14px;
+    font-weight: bold;    
+    text-shadow: 0px 0px 8px var(--neon-cyan);
+}
+
+/* Style the iframe to have a glowing neon border */
+#player {
+    width:98%;
+    margin-left: 10px;
+    margin-right: 10px;
+    height:100%;
+    border-radius: 10px;
+    border: 4px solid var(--neon-blue);
+    box-shadow: 0px 0px 20px var(--neon-yellow), 0px 0px 40px var(--neon-cyan);
+    transition: transform 0.5s ease;
+}
+
+#player:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 0px 30px var(--neon-pink), 0px 0px 60px var(--neon-cyan);
+}
+.audio-player{
+    max-width: 720px;
+    max-height: 570px;
+    width: 59%;
+    min-width: 300px;
+    height: 50%;
+    min-height: 300px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0px 0px 30px var(--neon-pink), 0px 0px 40px var(--neon-blue);
+}
+.audio-player:hover {
+    border-color: rgb(210, 255, 255);
+    border-width: 3px;
+    box-shadow: 0px 0px 20px var(--neon-pink), 0px 0px 70px var(--neon-blue), 
+                0px 0px 80px rgba(253, 255, 227, 0.661), 0px 0px 70px rgba(245, 254, 255, 0.267);
+    transform: scale(1.003); /* Slightly enlarge the element on hover */
+}
+/* Mobile-specific styles */
+@media (max-width: 570px) { /* 768px is a common breakpoint for tablets and smaller screens */
+    .audio-player {
+        max-height: 220px;
+    }
+}
+
+#videoContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* hpns */
+
+
+.hpns > *:hover {
+    transform: scale(1.8) rotate(2deg); /* Slightly reduce scale and rotation */
+    width: 110%;
+    box-shadow: 0 15px 26px rgba(0, 0, 0, 0.4);
+}
+
+.hpns > * span {
+    display: inline-block;
+    transition: transform 0.2s ease;
+}
+
+.hpns > * {
+    display: inline-block;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, width  0.1s ease;
+}
+a {
+    all: unset; /* Resets all styles to the default state */
+    text-decoration: none; /* Remove underline */
+    color: inherit; /* Inherit color from parent element */
+    cursor: pointer; /* Ensures the cursor changes to pointer on hover */
+}
+
+
+.hpns{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Comic Sans MS', cursive, sans-serif; /* Cute font */
+    font-size: 1em; /* Large font size */
+    text-align: center; /* Center the text */
+    color: hsl(0, 0%, 100%); /* Pink color for the text */
+    background: linear-gradient(45deg, #ffcc00, #ff69b4); /* Gradient background */
+    -webkit-background-clip: text;
+    /* -webkit-text-fill-color: transparent; */
+    position: relative; /* For positioning the sparkle */
+    animation: sparkle 1.5s infinite; /* Animation for shine effect */
+    text-shadow: 
+        0 0 5px rgba(255, 105, 180, 0.8),
+        0 0 10px rgba(255, 105, 180, 0.8),
+        0 0 15px rgba(255, 215, 0, 0.7); /* Add a glowing effect */
+}
+.topic {
+    margin-top: 75px;
+    user-select: none;
+    font-family: 'Comic Sans MS', cursive, sans-serif; /* Cute font */
+    font-size: 4em; /* Large font size */
+    text-align: center; /* Center the text */
+    color: #ff69b4; /* Pink color for the text */
+    background: linear-gradient(45deg, #ffea94, #ff69b4); /* Gradient background */
+    -webkit-background-clip: text; /* Clip background to text */
+    -webkit-text-fill-color: transparent; /* Fill text with gradient */
+    position: relative; /* For positioning the sparkle */
+    animation: sparkle 1.5s infinite; /* Animation for shine effect */
+    text-shadow: 
+        0 0 5px rgba(255, 105, 180, 0.8),
+        0 0 10px rgba(255, 105, 180, 0.8),
+        0 0 15px rgba(255, 220, 23, 0.976); /* Add a glowing effect */
+}
+.topic:hover{
+    color: antiquewhite;
+    background: linear-gradient(45deg, #ffffff, #ff69b4); /* Gradient background */
+}
+
+@media (hover: hover) {
+    .topic:hover {
+        color: antiquewhite;
+        background: linear-gradient(45deg, #ffffff, #ff69b4); /* Gradient background */
+    }
+}
+
+@media (hover: none) {
+    /* Styles applied for touch devices or mobile */
+    .topic {
+        color: antiquewhite;
+        background: linear-gradient(45deg, #ffffff, #ff69b4); /* Gradient background */
+    }
+}
+@keyframes sparkle {
+    0% {
+        text-shadow: 
+            0 0 5px rgba(255, 105, 180, 0.8),
+            0 0 10px rgba(255, 105, 180, 0.8),
+            0 0 5px rgba(255, 215, 0, 0.7);
+    }
+    20% {
+        text-shadow: 
+            0 0 10px rgba(255, 105, 180, 1),
+            0 0 5px rgb(255, 187, 13),
+            0 0 22px rgb(204, 75, 255);
+    }
+    100% {
+        text-shadow: 
+            0 0 5px rgba(255, 105, 180, 0.8),
+            0 0 10px rgba(255, 105, 180, 0.8),
+            0 0 15px rgba(255, 215, 0, 0.7);
+    }
+}
+/* Star styles */
+.topic::before,
+.topic::after {
+    content: '★'; /* Star character */
+    position: absolute;
+    font-size: 2em; /* Size of the stars */
+    color: #ffd700; /* Gold color for the stars */
+    transform: rotate(0deg) scale(.5);
+    animation: twinkle 1.5s infinite, rotate 3s infinite; /* Add rotation and twinkling animation */
+}
+
+.topic::before {
+    top: -20px; /* Position of the left star */
+    left: 0px; /* Move left */
+    animation-delay: 0.5s; /* Delay for staggered effect */
+}
+
+.topic::after {
+    bottom: -20px; /* Position of the right star */
+    right: 0px; /* Move right */
+    animation:  twinkle 1.5s infinite, rotate 3s infinite, mv 3s infinite;
+}
+
+@keyframes mv {
+    0%, 20%, 100% {
+        right: 62px;  /* Fully visible */
+    }
+    10%, 30% {
+        right: 61px;  /* Partially visible */
+    }
+}
+
+/* Twinkling effect for stars */
+@keyframes twinkle {
+    0%, 20%, 100% {
+        opacity: 1; /* Fully visible */
+    }
+    10%, 30% {
+        opacity: 0.5; /* Partially visible */
+    }
+}
+/* Rotation effect for stars */
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg) scale(.5); /* Start at original position and size */
+    }
+    50% {
+        transform: rotate(180deg) scale(1.2); /* Rotate and slightly enlarge */
+    }
+    100% {
+        transform: rotate(360deg) scale(.5); /* Back to original */
+    }
+}
+
+.musicstashembed{
+    margin: 10px;
+}
+div{
+    font-family: '8bit Operator', monospace;
+}
+body{
+    margin: 0;
+}
+#pagerzb_bg {
+    font-family: '8bit Operator', monospace;
+    background: linear-gradient(to right, 
+        rgba(255, 60, 158, 0.7) 0%,   /* Pink color on the left */
+        rgba(255, 73, 103, 0.749) 50%, /* Middle transparent color */
+        rgba(255, 60, 158, 0.7) 100%  /* Pink color on the right */
+    );
+    color: blue; /* Make the text color transparent */
+    font-weight: bold; /* Adjust font weight if necessary */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center; /* Center the text */
+    margin: 0;
+    padding-top: 47px; /* Add some margin to position it nicely */
+}
+
+hr {
+    border: none; /* Remove default border */
+    height: 2px; /* Increased thickness for a bolder line */
+    background: linear-gradient(90deg, rgba(255, 60, 158, 0.8), rgba(171, 212, 248, 0.8), rgba(255, 60, 158, 0.8)); /* Neon gradient color */
+    position: relative; /* For positioning the glow effect */
+    overflow: hidden; /* Contain the glow effect */
+    box-shadow: 0 0 15px rgba(255, 60, 158, 0.8), 0 0 30px rgba(171, 212, 248, 0.8); /* Neon glow effect */
+    animation: pulse 2s infinite; /* Pulsing animation */
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7; /* Slightly transparent */
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+
+
+button{
+    font-family: '8bit Operator', monospace;
+}
+input{
+    font-family: '8bit Operator', monospace;
+}
+
+header{
+    width: 100%;
+    margin: 10px;
+    margin-left: 0;
+    margin-right: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    color: #0ff;
+    height: 80px;
+}
+article{
+    margin: 5px;
+}
+.annPos{
+    transform:translate(3%);  
+
+    z-index: 11;
+    display: flex;
+    position: fixed;
+    top: 54px;
+}
+.announcement {
+    opacity: 74%;
+    color: #fffcfc;
+    background-color: #111;
+    padding: 9px;
+    display: none; /* Initially hidden */
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+}.announcement:hover{
+    background-color: #44ddffd2;
+    opacity: 80%;
+}
+.close-announcement{
+    opacity: 20%;
+    font-size: 10px;
+    right: 7px;
+    bottom: 8px;
+    position: relative;
+    height: 20px;
+    width: 20px;
+    text-align: center;    
+    display: none; /* Initially hidden */
+    color: #fffcfc;
+    background-color: #e84c18;
+    border-radius: 20px ;
+    border: 1px solid #340000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.close-announcement:hover{
+    opacity: 90%;
+    background-color: #ff3d02f9;
+}
+.tops{
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+article{
+    position: absolute;
+    color: #f0e7e4;
+}
+.OnTopOptions {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 10;
+    margin: 0;
+}
+
+
+
+
+
+
+
+
+/* chat box */
+
+
+
+
+.chat-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.neon-chatbox {
+    background-color: #111;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5), 
+                0 0 40px rgba(0, 255, 255, 0.3);
+    width: 385px;
+    height: 510px;
+    max-width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: height 0.3s ease;  
+}
+.chat-header button {
+    text-shadow:inherit;
+    background-color:inherit;
+    color: inherit;
+    width: 100%; /* Make button take full width */
+    height: 100%; /* Make button take full height */
+    border: none; /* Remove border */
+    background-color: transparent; /* Transparent background */
+    cursor: pointer; /* Pointer cursor for button */
+    font-size: inherit; /* Inherit font size from chat-header */
+}
+
+.chat-header {
+    padding: 8px;
+    text-align: center;
+    font-size: 1.5em;
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff;
+    background-color: rgb(131, 131, 255);
+    color: #fff;
+    user-select: none; 
+}
+
+.messages {
+    flex: 1;
+    padding: 12px;
+    overflow-y: auto;
+    max-height: 340px;
+    font-size: 19px;
+}
+
+.message {
+    background-color:  rgb(131, 131, 255);
+    color: #fff;
+    padding: 11px;
+    margin: 5px 0;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+    animation: fadeIn 0.3s;
+}
+
+.message-input {
+    border-radius: 0 0 0 5px;
+    font-size: 1em;
+    box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.2);
+    height: 50px; /* Set height to 100px */
+    border: none; /* Ensure no border is applied */
+    outline: none; /* Remove outline for better aesthetics */
+}
+.status-message{
+    padding-left: 3px;
+    font-size: 14px;
+}
+.user-info{
+    font-size: 10px;
+    padding-left: 3px;
+}
+.sign-out-button{
+    display: none;
+    background-color: rgba(53, 53, 222, 0.545);
+    color: #d7e7fe45;
+    cursor: pointer;
+}
+
+
+.forgot-password-button{
+    background-color: rgba(53, 53, 222, 0.545);
+    color: #d7e7fe45;
+    cursor: pointer;
+}
+.send-button {
+    background-color: rgb(131, 131, 255);
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 0 0 5px 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    
+}.send-button:disabled {
+    background-color: #ccc; /* Light grey background */
+    color: #666; /* Dark grey text */
+    cursor: not-allowed; /* Change cursor to indicate it's not clickable */
+    opacity: 0.6; /* Slightly transparent */
+}
+
+.send-button:hover {
+    background-color: #0ff;
+}
+
+
+.desc-login{
+    font-size: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    padding-left: 4px;
+    padding-top: 3px;
+    padding-bottom: 1px;
+    user-select: none; 
+}
+.claim-button{
+    flex: 1;  
+    background-color: rgba(52, 52, 240, 0.578);
+    font-size: 12px;
+    color: #f2f2f2ef;
+    border: none;
+    padding: 3px 10px;
+    margin: 2px;
+    border-radius: 5px ;
+    cursor: pointer;}
+.claim-button:hover {
+    background-color: rgb(36, 92, 212);
+}
+.claim {
+    display: none;
+}
+#chatoptions{
+    display: flex;
+    justify-content: space-between; /* Distribute space between items */
+    align-items: stretch;
+}
+
+.minimize-button{
+    background-color: rgba(35, 48, 167, 0.372);    
+    color: rgba(0, 0, 49, 0.86);
+    border-radius: 3px;
+    border: 0px;
+    cursor: pointer;
+    width: 25px;
+}
+.minimize-button:hover {
+    background-color: rgb(36, 92, 212);
+}
+.ishidden {
+    display: none;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+
+.draggable {
+    width: 150px;
+    height: 150px;
+    background-color: #3498db00;
+    color: white;
+    display: flex;
+    z-index: 2;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    position: absolute;
+    cursor: move; 
+    user-select: none; 
+    opacity: 0.68;
+}
+.draggable:hover{
+    opacity: 0.9;
+
+}
+
+
+
+#typebns{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#typewriter{
+    margin: 0;
+}
+/* Optional: Styles for the typewriter text */
+#blinker-pos {
+    font-family: monospace; /* Monospace font for typewriter effect */
+    display: inline-block; /* Allows the cursor to align properly */
+    position: relative; /* Position relative for blinking cursor */
+    font-size: 24px; /* Adjust font size as needed */
+}
+
+/* Blinking cursor animation */
+@keyframes blink-caret {
+    0%, 100% {
+        opacity: 1; /* Visible */
+    }
+    50% {
+        opacity: 0; /* Invisible */
+    }
+}
+
+/* Cursor styles */
+.cursor {
+    display: inline-block;
+    width: 8px; /* Increased width of the cursor */
+    height: 25px;
+    background-color: rgb(74, 255, 204); /* Color of the cursor */
+    animation: blink-caret 0.75s step-end infinite; /* Blinking effect */
+    margin-left: 2px; /* Space between text and cursor */
+}
+
+.bns{
+    color: #0ff;
+    margin: 3px;
+    padding: 5px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Load HTML with Module Scripts</title>
+    <link rel="stylesheet" href="ComputerRoomStyle.css">
+</head>
+<body>
+    <!-- <div id="showcontent">
+    </div> -->
+
+    <div id="dot"></div>
+    <img id="tv" src="tv.png" alt="">
+
+
+    <div id="screen">
+        <div id="screen-cover">
+            <div id="showcontent-wrapper">
+                <div id="showcontent">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="grid0"></div>
+    <div id="grid1"></div>
+    <div id="grid2"></div>
+    <div id="grid3"></div>
+    <div id="grid4"></div>
+
+
+    <script type="text/javascript">
+        const page = "page_rzb.html"; // Load
+
+        fetch(page)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            })
+            .then(html => {
+                const showContent = document.getElementById('showcontent');
+                showContent.innerHTML = html;
+
+                // Find and execute module scripts
+                const scripts = showContent.getElementsByTagName('script');
+                for (let i = 0; i < scripts.length; i++) {
+                    const script = document.createElement('script');
+                    script.type = scripts[i].type || 'text/javascript';
+
+
+                        // For inline scripts, set the text
+                        script.textContent = scripts[i].innerHTML;
+                        document.body.appendChild(script); // Append script to body to execute it
+                }
+            })
+            .catch(error => {
+                console.error('Error loading the page:', error);
+            });
+    </script>
+</body>
+</html>
