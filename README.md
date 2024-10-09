@@ -1,2 +1,2 @@
-# [zeddychan.netlify.app](https://zeddychan.netlify.app/)
+# [zeddychan.netlify.app](https://reizorbean.netlify.app/)
 2
