@@ -550,7 +550,31 @@
     }
 
     function executeScriptLogic() {
-        if (window.location.href.includes("reizorbean.netlify.app") || window.location.href.includes("127.0.0.1:5500")) {
+        // if (window.location.href.includes("reizorbean.netlify.app")) {
+        let allowIn = true;
+        const correctPassword = "yourPassword";
+
+        // Initialize Firebase (ensure your Firebase config is properly added)
+        const dbRef = firebase.database().ref('siteData/siteURL');
+        
+        // Retrieve the siteURL value from Firebase
+        dbRef.once('value', (snapshot) => {
+            const siteURL = snapshot.val();
+            console.log(siteURL); // Outputs: "https://example.com"
+        });
+        
+        if (!window.location.href.includes(siteURL))
+        {
+            const userPassword = prompt("Please enter the password:");
+                if (userPassword === correctPassword) {
+                    allowIn = true;
+                } else {
+                    allowIn = false;
+                }
+            }
+       
+        if (allowIn) {
+                
             document.body.classList.remove('hide');
             
 
@@ -1256,7 +1280,7 @@
 
 
 
-    } else {
+    }  else {
         document.body.innerHTML = 'Error. Come back again later.'; 
         confirm("Error. Come back again later.");
 
