@@ -590,11 +590,12 @@
         const siteDataRef = dbRef(database, 'siteData/siteURL');
 
         // Retrieve the siteURL value from Firebase
-        siteDataRef.once('value', (snapshot) => {
-            const siteURL = snapshot.val();
-            console.log(siteURL); // Outputs: "https://example.com"
-        });
-        
+        get(siteDataRef).then((snapshot) => {
+                const siteURL = snapshot.val();
+                console.log(siteURL); // Outputs: "https://example.com"
+            
+             
+                
         if (!window.location.href.includes(siteURL))
         {
             const userPassword = prompt("Please enter the password:");
@@ -1287,6 +1288,10 @@
         return; 
         }
 
+                
+       }).catch((error) => {
+        console.error("Error fetching data:", error);
+    });
 
 
 }
