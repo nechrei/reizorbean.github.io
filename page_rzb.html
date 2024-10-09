@@ -533,6 +533,39 @@
 
 
     console.log(".......")
+    const firebaseConfig = {
+        databaseURL: "https://reizorbean-default-rtdb.firebaseio.com",
+        apiKey: "AIzaSyDsSFled2cHxIOUBWdD1TR7bvpiU_b5TDQ",
+        authDomain: "reizorbean.firebaseapp.com",
+        projectId: "reizorbean",
+        storageBucket: "reizorbean.appspot.com",
+        messagingSenderId: "997740521798",
+        appId: "1:997740521798:web:e6914db572a5f449645d47",
+        measurementId: "G-5WBWR125F2"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const auth = getAuth(app);
+    const storage = getStorage();
+    const imagesRef = storageRef(storage, 'images');
+    
+    const sendButton = document.getElementById("sendButton");
+    const claimButton = document.getElementById("claimButton");
+    const emailInput = document.getElementById("emailInput");
+    const passwordInput = document.getElementById("passwordInput");
+    const messageInput = document.getElementById("messageInput");
+    const chatbox = document.getElementById("chatbox");
+    const openChatButton = document.getElementById("openChatButton");
+    const statusMessageDiv = document.getElementById("statusMessage");
+    const userInfoDiv = document.getElementById("userInfo");
+    const signOutButton = document.getElementById("signOutButton");
+    const announcementDiv = document.getElementById('announcement');
+    const closeAnnouncementDiv = document.getElementById('close-announcement');
+
+    // Reference to publicAnnouncement in your database
+    const announcementRef = dbRef(database, 'publicAnnouncement');
+
 
     document.addEventListener("DOMContentLoaded", function() {
         if (!isInnerHTML) {
@@ -554,11 +587,10 @@
         let allowIn = true;
         const correctPassword = "yourPassword";
 
-        // Initialize Firebase (ensure your Firebase config is properly added)
-        const dbRef = firebase.database().ref('siteData/siteURL');
-        
+        const siteDataRef = dbRef(database, 'siteData/siteURL');
+
         // Retrieve the siteURL value from Firebase
-        dbRef.once('value', (snapshot) => {
+        siteDataRef.once('value', (snapshot) => {
             const siteURL = snapshot.val();
             console.log(siteURL); // Outputs: "https://example.com"
         });
@@ -618,39 +650,7 @@
             embedYouTubeVideos(musiclist);
         })();   
 
-        const firebaseConfig = {
-            databaseURL: "https://reizorbean-default-rtdb.firebaseio.com",
-            apiKey: "AIzaSyDsSFled2cHxIOUBWdD1TR7bvpiU_b5TDQ",
-            authDomain: "reizorbean.firebaseapp.com",
-            projectId: "reizorbean",
-            storageBucket: "reizorbean.appspot.com",
-            messagingSenderId: "997740521798",
-            appId: "1:997740521798:web:e6914db572a5f449645d47",
-            measurementId: "G-5WBWR125F2"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const database = getDatabase(app);
-        const auth = getAuth(app);
-        const storage = getStorage();
-        const imagesRef = storageRef(storage, 'images');
-
-        const sendButton = document.getElementById("sendButton");
-        const claimButton = document.getElementById("claimButton");
-        const emailInput = document.getElementById("emailInput");
-        const passwordInput = document.getElementById("passwordInput");
-        const messageInput = document.getElementById("messageInput");
-        const chatbox = document.getElementById("chatbox");
-        const openChatButton = document.getElementById("openChatButton");
-        const statusMessageDiv = document.getElementById("statusMessage");
-        const userInfoDiv = document.getElementById("userInfo");
-        const signOutButton = document.getElementById("signOutButton");
-        const announcementDiv = document.getElementById('announcement');
-        const closeAnnouncementDiv = document.getElementById('close-announcement');
-
         
-        // Reference to publicAnnouncement in your database
-        const announcementRef = dbRef(database, 'publicAnnouncement');
         let announcementLink = "";
 
             // Listen for value changes using onValue
