@@ -531,6 +531,7 @@
     import { getStorage,  ref as storageRef,  listAll, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-storage.js";
     import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
 
+    console.log("MODULE HERE!!!"); 
 
     console.log(".......")
     const firebaseConfig = {
@@ -583,28 +584,45 @@
     }
 
     function executeScriptLogic() {
+        console.log("EXECUTING SCRIPT!!!!!!!!!!!!!!!!!!"); 
+        
         // if (window.location.href.includes("reizorbean.netlify.app")) {
         let allowIn = true;
-        const correctPassword = "yourPassword";
 
         const siteDataRef = dbRef(database, 'siteData/siteURL');
-
-        // Retrieve the siteURL value from Firebase
+        const sitePWRef = dbRef(database, 'siteData/pw');
+        
+        
+        
+        get(sitePWRef).then((snapshot) => {
+            const thepw = snapshot.val();
+            
+            console.log(thepw); 
+        
+        
         get(siteDataRef).then((snapshot) => {
                 const siteURL = snapshot.val();
                 console.log(siteURL); // Outputs: "https://example.com"
+        
+        
+        if (typeof(thepw) !== "undefined"){
             
-             
+            if (!window.location.href.includes(siteURL))
+            {
+                let magicpw = "";
+                magicpw = prompt("Please enter the password:");
                 
-        if (!window.location.href.includes(siteURL))
-        {
-            const userPassword = prompt("Please enter the password:");
-                if (userPassword === correctPassword) {
+                if (magicpw === thepw && magicpw) {
                     allowIn = true;
                 } else {
                     allowIn = false;
                 }
             }
+        }else{
+            
+            allowIn = false;
+            
+        }
        
         if (allowIn) {
                 
@@ -1292,6 +1310,9 @@
        }).catch((error) => {
         console.error("Error fetching site data:", error);
     });
+       }).catch((error) => {
+    console.error("Error fetching PW data:", error);
+});
 
 
 }
